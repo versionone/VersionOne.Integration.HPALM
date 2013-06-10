@@ -1,4 +1,4 @@
-VersionOne.Integration.QualityCenter
-====================================
+# VersionOne Integration for HP Quality Center
 
-include acceptance tests from stories in test plans and triage defects for inclusion in agile planning
+## Code Coming Soon!
+If you are interested in contributing to this project, please contact [Ian Buchanan](mailto:ian.buchanan@versionone.com).
