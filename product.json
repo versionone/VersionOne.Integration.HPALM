@@ -21,8 +21,13 @@
         {
             "type": "documentation",
             "title": "Documentation",
-            "href": "http://community.versionone.com/sdk/DetailedDocumentation/QualityCenter/index.html"
-        }
+            "href": "http://versionone.github.io/VersionOne.Integration.QualityCenter/index.html"
+        },
+        {
+            "type": "license",
+            "title": "Modified BSD (3-clause) License",
+            "href": "https://github.com/versionone/VersionOne.Integration.QualityCenter/blob/master/LICENSE.md"
+        }        
     ],
     "updatesSection": {
         "updates": [
