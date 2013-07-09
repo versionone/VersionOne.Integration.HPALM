@@ -34,7 +34,7 @@
             {
                 "date": "2012-11-01T00:00:00.000Z",
                 "description": "Winter 2012",
-                "version": "2117",
+                "version": "8.3.0.2117",
                 "releaseNotes": " * Added: Validation of some configuration settings on start-up. \n * Added: Logging of connection information on start-up.",
                 "qualityBand": "mature",
                 "downloadUrl": "http://platform.versionone.com.s3.amazonaws.com/downloads/V1QualityCenter.8.3.zip"
