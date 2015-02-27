@@ -1,0 +1,88 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="VersionOne.ServiceHost.QualityCenterServices.QCProject">
+    <Position X="1" Y="4" Width="1.5" />
+    <Compartments>
+      <Compartment Name="Fields" Collapsed="true" />
+    </Compartments>
+    <TypeIdentifier>
+      <HashCode>EAAAAAAAAAAQAAAAMAACCCABAggAAQAAAAAABAAAAAA=</HashCode>
+      <FileName>QCProject.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="VersionOne.ServiceHost.QualityCenterServices.QualityCenterClient" BaseTypeListCollapsed="true">
+    <Position X="13.75" Y="1" Width="2.5" />
+    <Compartments>
+      <Compartment Name="Fields" Collapsed="true" />
+    </Compartments>
+    <TypeIdentifier>
+      <HashCode>AIBGAACAKDAAgCVAAABFCgoIQEgMAAAABgAWYiEAwQI=</HashCode>
+      <FileName>QualityCenterClient.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="VersionOne.ServiceHost.QualityCenterServices.QualityCenterUpdaterService" BaseTypeListCollapsed="true">
+    <Position X="7.75" Y="0.75" Width="2.5" />
+    <AssociationLine Name="server" Type="VersionOne.ServiceHost.QualityCenterServices.QualityCenterReaderUpdater" FixedFromPoint="true" FixedToPoint="true">
+      <Path>
+        <Point X="10.25" Y="1.5" />
+        <Point X="11.438" Y="1.5" />
+        <Point X="11.438" Y="4" />
+      </Path>
+    </AssociationLine>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAACAQAQQCAAAAAgAAAAAAAAAIBAAAAAAAAAI=</HashCode>
+      <FileName>QualityCenterUpdaterService.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="server" />
+    </ShowAsAssociation>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="VersionOne.ServiceHost.QualityCenterServices.QualityCenterHostedService" BaseTypeListCollapsed="true">
+    <Position X="4" Y="0.5" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAQAAAAACAAAQAACEAAgAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>QualityCenterHostedService.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="qcWriter" />
+      <Field Name="qcReader" />
+      <Field Name="qcServer" />
+    </ShowAsAssociation>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="VersionOne.ServiceHost.QualityCenterServices.QualityCenterReaderService" BaseTypeListCollapsed="true">
+    <Position X="5.75" Y="4" Width="2.75" />
+    <NestedTypes>
+      <Class Name="VersionOne.ServiceHost.QualityCenterServices.QualityCenterReaderService.IntervalSync" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>QualityCenterReaderService.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Class>
+    </NestedTypes>
+    <TypeIdentifier>
+      <HashCode>AAAACAAAACAQAQgCAAQAgAAAAAQAEAAAAAAAAIAAAAI=</HashCode>
+      <FileName>QualityCenterReaderService.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="server" />
+    </ShowAsAssociation>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="VersionOne.ServiceHost.QualityCenterServices.QualityCenterReaderUpdater">
+    <Position X="9.75" Y="4" Width="3" />
+    <TypeIdentifier>
+      <HashCode>AAAAgABACAAAAQACAAAAgggAAQBAAgAQJABBAACAAIA=</HashCode>
+      <FileName>QualityCenterReaderUpdater.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Interface Name="VersionOne.ServiceHost.QualityCenterServices.IQualityCenterClient">
+    <Position X="1" Y="0.75" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAACAAAAAQAAAAAAggAAAAAAAAABAAAAAAAAQA=</HashCode>
+      <FileName>IQualityCenterClient.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>
