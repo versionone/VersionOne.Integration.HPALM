@@ -21,6 +21,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VersionOne.ServiceHost.Conf
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Dependencies", "Dependencies", "{AC92C6A4-648F-4A50-9F4F-EB48C1DFA3D3}"
 	ProjectSection(SolutionItems) = preProject
+		Dependencies\Interop.TDAPIOLELib.dll = Dependencies\Interop.TDAPIOLELib.dll
 		Dependencies\Microsoft.Practices.EnterpriseLibrary.Common.dll = Dependencies\Microsoft.Practices.EnterpriseLibrary.Common.dll
 		Dependencies\Microsoft.Practices.EnterpriseLibrary.Validation.dll = Dependencies\Microsoft.Practices.EnterpriseLibrary.Validation.dll
 		Dependencies\Microsoft.Practices.EnterpriseLibrary.Validation.Integration.WinForms.dll = Dependencies\Microsoft.Practices.EnterpriseLibrary.Validation.Integration.WinForms.dll
