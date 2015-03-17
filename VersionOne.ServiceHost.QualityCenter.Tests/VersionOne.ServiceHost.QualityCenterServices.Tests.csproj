@@ -54,12 +54,34 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Interop.TDAPIOLELib, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Common\QC.NET\Interop.TDAPIOLELib.dll</HintPath>
+    <Reference Include="FParsec">
+      <HintPath>..\packages\FParsec.1.0.1\lib\net40-client\FParsec.dll</HintPath>
+    </Reference>
+    <Reference Include="FParsecCS">
+      <HintPath>..\packages\FParsec.1.0.1\lib\net40-client\FParsecCS.dll</HintPath>
+    </Reference>
+    <Reference Include="FSharp.Data">
+      <HintPath>..\packages\FSharp.Data.1.1.10\lib\net40\FSharp.Data.dll</HintPath>
+    </Reference>
+    <Reference Include="FSharp.Data.DesignTime">
+      <HintPath>..\packages\FSharp.Data.1.1.10\lib\net40\FSharp.Data.DesignTime.dll</HintPath>
+    </Reference>
+    <Reference Include="Interop.TDAPIOLELib">
+      <HintPath>..\Dependencies\Interop.TDAPIOLELib.dll</HintPath>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </Reference>
+    <Reference Include="log4net">
+      <HintPath>..\packages\log4net.2.0.3\lib\net40-full\log4net.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Ninject">
+      <HintPath>..\packages\Ninject.3.2.2.0\lib\net45-full\Ninject.dll</HintPath>
     </Reference>
     <Reference Include="nunit.framework">
       <HintPath>..\packages\NUnit.2.6.3\lib\nunit.framework.dll</HintPath>
+    </Reference>
+    <Reference Include="OAuth2Client">
+      <HintPath>..\packages\OAuth2Client.1.6.1.2571\lib\net45\OAuth2Client.dll</HintPath>
     </Reference>
     <Reference Include="Rhino.Mocks">
       <HintPath>..\packages\RhinoMocks.3.6.1\lib\net\Rhino.Mocks.dll</HintPath>
@@ -70,6 +92,12 @@
     </Reference>
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
+    <Reference Include="VersionOne.Parsers">
+      <HintPath>..\packages\VersionOne.Parsers.1.1.0.0\lib\net45\VersionOne.Parsers.dll</HintPath>
+    </Reference>
+    <Reference Include="VersionOne.SDK.APIClient">
+      <HintPath>..\packages\VersionOne.SDK.APIClient.14.1.1.290\lib\net45\VersionOne.SDK.APIClient.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -81,13 +109,13 @@
       <Project>{F432BAC8-27ED-4C2C-8E06-EF806A5B0D79}</Project>
       <Name>VersionOne.ServiceHost.Core</Name>
     </ProjectReference>
+    <ProjectReference Include="..\VersionOne.ServiceHost.QualityCenterServices\VersionOne.ServiceHost.QualityCenterServices.csproj">
+      <Project>{4759dd76-fc53-4122-ad95-193cea15993b}</Project>
+      <Name>VersionOne.ServiceHost.QualityCenterServices</Name>
+    </ProjectReference>
     <ProjectReference Include="..\VersionOne.ServiceHost.WorkitemServices\VersionOne.ServiceHost.WorkitemServices.csproj">
       <Project>{76B6D3F1-16F8-43A9-A2B7-DDADAFE70D0D}</Project>
       <Name>VersionOne.ServiceHost.WorkitemServices</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\VersionOne.ServiceHost.QualityCenterServices\VersionOne.ServiceHost.QualityCenterServices.csproj">
-      <Project>{4759DD76-FC53-4122-AD95-193CEA15993B}</Project>
-      <Name>VersionOne.ServiceHost.QualityCenterServices</Name>
     </ProjectReference>
     <ProjectReference Include="..\VersionOne.ServiceHost.TestServices\VersionOne.ServiceHost.TestServices.csproj">
       <Project>{20254FE6-FCAF-4D00-9A24-00E763D31357}</Project>
@@ -116,6 +144,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -71,29 +71,44 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Interop.TDAPIOLELib, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Common\QC.NET\Interop.TDAPIOLELib.dll</HintPath>
+    <Reference Include="FParsec">
+      <HintPath>..\packages\FParsec.1.0.1\lib\net40-client\FParsec.dll</HintPath>
     </Reference>
-    <Reference Include="log4net, Version=1.2.10.0, Culture=neutral, PublicKeyToken=1b44e1d426115821, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Common\log4net.dll</HintPath>
+    <Reference Include="FParsecCS">
+      <HintPath>..\packages\FParsec.1.0.1\lib\net40-client\FParsecCS.dll</HintPath>
+    </Reference>
+    <Reference Include="FSharp.Data">
+      <HintPath>..\packages\FSharp.Data.1.1.10\lib\net40\FSharp.Data.dll</HintPath>
+    </Reference>
+    <Reference Include="FSharp.Data.DesignTime">
+      <HintPath>..\packages\FSharp.Data.1.1.10\lib\net40\FSharp.Data.DesignTime.dll</HintPath>
+    </Reference>
+    <Reference Include="Interop.TDAPIOLELib">
+      <HintPath>..\Dependencies\Interop.TDAPIOLELib.dll</HintPath>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </Reference>
+    <Reference Include="log4net">
+      <HintPath>..\packages\log4net.2.0.3\lib\net40-full\log4net.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Practices.EnterpriseLibrary.Common, Version=4.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Common\EnterpriseLibrary\Microsoft.Practices.EnterpriseLibrary.Common.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.Practices.EnterpriseLibrary.Validation, Version=4.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Common\EnterpriseLibrary\Microsoft.Practices.EnterpriseLibrary.Validation.dll</HintPath>
+    <Reference Include="Microsoft.Practices.EnterpriseLibrary.Validation">
+      <HintPath>..\Dependencies\Microsoft.Practices.EnterpriseLibrary.Validation.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.Practices.EnterpriseLibrary.Validation.Integration.WinForms, Version=4.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Common\EnterpriseLibrary\Microsoft.Practices.EnterpriseLibrary.Validation.Integration.WinForms.dll</HintPath>
+    <Reference Include="Microsoft.Practices.EnterpriseLibrary.Validation.Integration.WinForms">
+      <HintPath>..\Dependencies\Microsoft.Practices.EnterpriseLibrary.Validation.Integration.WinForms.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Practices.ObjectBuilder2, Version=2.2.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Common\EnterpriseLibrary\Microsoft.Practices.ObjectBuilder2.dll</HintPath>
+    </Reference>
+    <Reference Include="Ninject">
+      <HintPath>..\packages\Ninject.3.2.2.0\lib\net45-full\Ninject.dll</HintPath>
+    </Reference>
+    <Reference Include="OAuth2Client">
+      <HintPath>..\packages\OAuth2Client.1.6.1.2571\lib\net45\OAuth2Client.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core">
@@ -104,9 +119,11 @@
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
-    <Reference Include="VersionOne.SDK.APIClient, Version=12.0.716.43782, Culture=neutral, PublicKeyToken=e0f410c10d2e7630, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Dependencies\VersionOne.SDK.APIClient.dll</HintPath>
+    <Reference Include="VersionOne.Parsers">
+      <HintPath>..\packages\VersionOne.Parsers.1.1.0.0\lib\net45\VersionOne.Parsers.dll</HintPath>
+    </Reference>
+    <Reference Include="VersionOne.SDK.APIClient">
+      <HintPath>..\packages\VersionOne.SDK.APIClient.14.1.1.290\lib\net45\VersionOne.SDK.APIClient.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -300,6 +317,7 @@
   <ItemGroup>
     <None Include="app.config" />
     <EmbeddedResource Include="log4net.config" />
+    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\VersionOne.ServerConnector\VersionOne.ServerConnector.csproj">
