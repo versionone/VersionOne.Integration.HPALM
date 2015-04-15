@@ -86,6 +86,7 @@ namespace VersionOne.ServiceHost.WorkitemServices {
                 Filter.Closed(true),
                 Filter.OfTypes(VersionOneProcessor.StoryType, VersionOneProcessor.DefectType),
                 Filter.Equal(Entity.SourceNameProperty, sourceName),
+                Filter.NotEqual(Entity.ReferenceProperty, String.Empty)
             };
 
             if(closedSince != DateTime.MinValue) {
