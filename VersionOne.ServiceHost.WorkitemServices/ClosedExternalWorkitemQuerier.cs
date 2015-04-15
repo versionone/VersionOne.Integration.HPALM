@@ -33,6 +33,14 @@ namespace VersionOne.ServiceHost.WorkitemServices {
                     var id = item.Number;
                     var changeDateUtc = item.ChangeDateUtc;
 
+                    //Compare dates put in due to query not filtering out all of them.
+                    if (closedSince.CompareTo(changeDateUtc) > 0)
+                    {
+
+                        continue;
+
+                    }
+
                     logger.Log(LogMessage.SeverityType.Debug, string.Format("Processing V1 Defect {0} closed at {1}", id, changeDateUtc));
 
                     if(lastCheckedDefectId.Equals(id)) {
