@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Xml;
+using VersionOne.Parsers;
 using VersionOne.ServiceHost.Core.Utility;
 using VersionOne.ServiceHost.Core.Logging;
 using TDAPIOLELib;
@@ -117,6 +118,7 @@ namespace VersionOne.ServiceHost.QualityCenterServices {
         public static bool HasLastRun(object testObj) {
             var test = (Test) testObj;
             return test.LastRun != null;
+            var x = test.LastRun != null;
         }
 
         public static string TestID(object testObj) {
