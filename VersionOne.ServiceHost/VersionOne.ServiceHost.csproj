@@ -136,7 +136,6 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Include="packages.config" />
-    <None Include="V1QualityCenter.config" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="profile.xml">
