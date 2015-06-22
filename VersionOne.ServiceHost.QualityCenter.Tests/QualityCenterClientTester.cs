@@ -1,17 +1,17 @@
 using System;
 using System.Collections.Generic;
 using System.Xml;
-using NUnit.Framework;
 using Rhino.Mocks;
 using TDAPIOLELib;
 using VersionOne.ServiceHost.Eventing;
 using VersionOne.ServiceHost.QualityCenterServices;
 using IList = System.Collections.IList;
 using VersionOne.ServiceHost.Core.Logging;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace VersionOne.ServiceHost.QualityCenter.Tests
 {
-    [TestFixture]
+    [TestClass]
     public abstract class QualityCenterClientContext
     {
         private readonly IDictionary<string, QualityCenterClient> _projects = new Dictionary<string, QualityCenterClient>();
@@ -20,7 +20,7 @@ namespace VersionOne.ServiceHost.QualityCenter.Tests
 
         private ILogger logger;
 
-        [TestFixtureSetUp]
+        [ClassInitialize]
         public virtual void Context()
         {
             repo = new MockRepository();
@@ -35,7 +35,7 @@ namespace VersionOne.ServiceHost.QualityCenter.Tests
             }
         }
 
-        [TestFixtureTearDown]
+        [ClassCleanup]
         public virtual void Teardown()
         {
             foreach (KeyValuePair<string, QualityCenterClient> pair in _projects)
@@ -128,19 +128,19 @@ namespace VersionOne.ServiceHost.QualityCenter.Tests
     public class when_quality_center_connection_is_initialized_but_not_logged_in : QualityCenterClientContext
     {
 
-        [Test]
+        [TestMethod]
         public void should_be_connected()
         {
             Assert.IsTrue(CallCenterConnection.IsConnected);
         }
 
-        [Test]
+        [TestMethod]
         public void should_not_be_logged_in()
         {
             Assert.IsFalse(CallCenterConnection.IsLoggedIn);
         }
 
-        [Test]
+        [TestMethod]
         public void should_not_be_connected_to_the_project()
         {
             Assert.IsFalse(CallCenterConnection.IsProjectConnected);
@@ -150,19 +150,19 @@ namespace VersionOne.ServiceHost.QualityCenter.Tests
     public class after_calling_login_on_quality_center_connection : QualityCenterClientLoggedInContext
     {
 
-        [Test]
+        [TestMethod]
         public void should_be_connected()
         {
             Assert.IsTrue(CallCenterConnection.IsConnected);
         }
 
-        [Test]
+        [TestMethod]
         public void should_be_logged_in()
         {
             Assert.IsTrue(CallCenterConnection.IsLoggedIn);
         }
 
-        [Test]
+        [TestMethod]
         public void should_not_be_connected_to_project()
         {
             Assert.IsFalse(CallCenterConnection.IsProjectConnected);
@@ -171,19 +171,19 @@ namespace VersionOne.ServiceHost.QualityCenter.Tests
 
     public class after_calling_connect_to_project_on_quality_center_connection : QualityCenterClientProjectConnectedContext
     {
-        [Test]
+        [TestMethod]
         public void should_be_connected()
         {
             Assert.IsTrue(CallCenterConnection.IsConnected);
         }
 
-        [Test]
+        [TestMethod]
         public void should_be_logged_in()
         {
             Assert.IsTrue(CallCenterConnection.IsLoggedIn);
         }
 
-        [Test]
+        [TestMethod]
         public void should_be_connected_to_project()
         {
             Assert.IsTrue(CallCenterConnection.IsProjectConnected);
@@ -199,19 +199,19 @@ namespace VersionOne.ServiceHost.QualityCenter.Tests
             CallCenterConnection.Logout();
         }
 
-        [Test]
+        [TestMethod]
         public void should_be_connected()
         {
             Assert.IsTrue(CallCenterConnection.IsConnected);
         }
 
-        [Test]
+        [TestMethod]
         public void should_not_be_logged_in()
         {
             Assert.IsFalse(CallCenterConnection.IsLoggedIn);
         }
 
-        [Test]
+        [TestMethod]
         public void should_not_be_project_connected()
         {
             Assert.IsFalse(CallCenterConnection.IsProjectConnected);
@@ -230,7 +230,7 @@ namespace VersionOne.ServiceHost.QualityCenter.Tests
             CallCenterConnection.CreateQCTest(testTitle, "This is the test description", "AT-00001");
         }
 
-        [Test]
+        [TestMethod]
         public void should_increments_test_count_in_quality_center()
         {
             int afterCreateCount = CallCenterConnection.GetTestCount();
@@ -266,25 +266,25 @@ namespace VersionOne.ServiceHost.QualityCenter.Tests
             _qcBug.Refresh();
         }
 
-        [Test]
+        [TestMethod]
         public void should_change_status()
         {
             string afterStatus = _qcBug.Status;
             Assert.AreNotEqual(beforeStatus, afterStatus);
         }
 
-        [Test]
+        [TestMethod]
         public void should_add_comments()
         {
             string afterComments = (string)_qcBug["BG_DEV_COMMENTS"] + "";
-            Assert.Greater(afterComments.Length, beforeComments.Length);
+            Assert.IsTrue(afterComments.Length > beforeComments.Length);
         }
 
-        [Test]
+        [TestMethod]
         public void should_add_link()
         {
             int afterAttachmentCount = ((AttachmentFactory)_qcBug.Attachments).NewList("").Count;
-            Assert.Greater(afterAttachmentCount, beforeAttachmentCount);
+            Assert.IsTrue(afterAttachmentCount > beforeAttachmentCount);
         }
     }
 
@@ -313,24 +313,24 @@ namespace VersionOne.ServiceHost.QualityCenter.Tests
             _qcBug.Refresh();
         }
 
-        [Test]
+        [TestMethod]
         public void should_change_status()
         {
             string afterStatus = _qcBug.Status;
             Assert.AreNotEqual(beforeStatus, afterStatus);
         }
 
-        [Test]
+        [TestMethod]
         public void should_add_comments()
         {
             string afterComments = (string)_qcBug["BG_DEV_COMMENTS"] + "";
-            Assert.Greater(afterComments.Length, beforeComments.Length);
+            Assert.IsTrue(afterComments.Length > beforeComments.Length);
         }
     }
 
     public class when_checking_for_test_updates : QualityCenterClientContext
     {
-        [Test]
+        [TestMethod]
         public void should_find_some_changes()
         {
             DateTime lastCheck = new DateTime(2009, 07, 23, 10, 20, 00);
@@ -341,7 +341,7 @@ namespace VersionOne.ServiceHost.QualityCenter.Tests
 
     public class when_checking_for_new_defects : QualityCenterClientContext
     {
-        [Test]
+        [TestMethod]
         public void should_find_some_changes()
         {
             DateTime lastCheck = new DateTime(2009, 07, 23, 10, 20, 00);
