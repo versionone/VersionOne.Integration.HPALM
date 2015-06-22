@@ -98,6 +98,7 @@ namespace VersionOne.ServiceHost.QualityCenter.Tests
 
     #endregion
 
+    [TestClass]
     public class when_quality_center_reader_updater_is_initialized_but_not_logged_in : QualityCenterReaderContext
     {
 
