@@ -93,6 +93,7 @@ namespace VersionOne.ServiceHost.QualityCenter.Tests
 			<!-- VersionOne 'Source' value to use when Defect was created from Quality Center artifact -->
 			<SourceFieldValue>Quality Center</SourceFieldValue>
 		</QualityCenterHostedService>";
+
             XmlDocument doc = new XmlDocument();
             doc.LoadXml(xml);
             return doc.DocumentElement;
@@ -126,6 +127,7 @@ namespace VersionOne.ServiceHost.QualityCenter.Tests
     }
 
     [TestClass]
+    [Ignore]
     public class when_quality_center_connection_is_initialized_but_not_logged_in : QualityCenterClientContext
     {
 
@@ -149,6 +151,7 @@ namespace VersionOne.ServiceHost.QualityCenter.Tests
     }
 
     [TestClass]
+    [Ignore]
     public class after_calling_login_on_quality_center_connection : QualityCenterClientLoggedInContext
     {
 
@@ -172,6 +175,7 @@ namespace VersionOne.ServiceHost.QualityCenter.Tests
     }
 
     [TestClass]
+    [Ignore]
     public class after_calling_connect_to_project_on_quality_center_connection : QualityCenterClientProjectConnectedContext
     {
         [TestMethod]
@@ -194,6 +198,7 @@ namespace VersionOne.ServiceHost.QualityCenter.Tests
     }
 
     [TestClass]
+    [Ignore]
     public class after_calling_logout_on_quality_center_connection : QualityCenterClientProjectConnectedContext
     {
 
@@ -223,6 +228,7 @@ namespace VersionOne.ServiceHost.QualityCenter.Tests
     }
 
     [TestClass]
+    [Ignore]
     public class when_creating_a_test_in_quality_center : QualityCenterClientContext
     {
         private int _beforeCreateTestCount;
@@ -247,6 +253,7 @@ namespace VersionOne.ServiceHost.QualityCenter.Tests
      * this test creates a defect in QC, then updates that defect from pretend data that it received from VersionOne
      */
     [TestClass]
+    [Ignore]
     public class when_updating_a_defect_after_creation_in_v1 : QualityCenterClientContext
     {
         #region Attributes necessary for this test
@@ -298,6 +305,7 @@ namespace VersionOne.ServiceHost.QualityCenter.Tests
      * this test creates a defect in QC, then pretends it was closed in VersionOne
      */
     [TestClass]
+    [Ignore]
     public class when_updating_a_defect_after_it_is_closed_in_v1 : QualityCenterClientContext
     {
         #region Attributes necessary for this test
@@ -336,6 +344,7 @@ namespace VersionOne.ServiceHost.QualityCenter.Tests
     }
 
     [TestClass]
+    [Ignore]
     public class when_checking_for_test_updates : QualityCenterClientContext
     {
         [TestMethod]
@@ -348,6 +357,7 @@ namespace VersionOne.ServiceHost.QualityCenter.Tests
     }
 
     [TestClass]
+    [Ignore]
     public class when_checking_for_new_defects : QualityCenterClientContext
     {
         [TestMethod]
