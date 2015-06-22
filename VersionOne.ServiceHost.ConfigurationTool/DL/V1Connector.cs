@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using VersionOne.SDK.APIClient;
-using VersionOne.ServerConnector.Entities;
+using VersionOne.ServiceHost.ServerConnector.Entities;
 using VersionOne.ServiceHost.ConfigurationTool.DL.Exceptions;
 using VersionOne.ServiceHost.ConfigurationTool.Entities;
 using ListValue = VersionOne.ServiceHost.ConfigurationTool.BZ.ListValue;

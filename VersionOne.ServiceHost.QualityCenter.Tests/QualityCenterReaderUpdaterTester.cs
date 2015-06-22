@@ -84,7 +84,7 @@ namespace VersionOne.ServiceHost.QualityCenter.Tests
         }
     }
 
-	public abstract class QualityCenterQueryContext : QualityCenterReaderContext
+    public abstract class QualityCenterQueryContext : QualityCenterReaderContext
     {
         public override void Context()
         {
@@ -99,16 +99,20 @@ namespace VersionOne.ServiceHost.QualityCenter.Tests
 
     #endregion
 
-	public class when_quality_center_reader_updater_is_initialized_but_not_logged_in : QualityCenterReaderContext {
+    public class when_quality_center_reader_updater_is_initialized_but_not_logged_in : QualityCenterReaderContext
+    {
 
-		[Test]
-		public void should_support_qc_call_center_project() {
-			Assert.IsTrue(qcReaderUpdater.HandlesQCProject("Default", "CallCenter"));
-		}
+        [Test]
+        public void should_support_qc_call_center_project()
+        {
+            Assert.IsTrue(qcReaderUpdater.HandlesQCProject("Default", "CallCenter"));
+        }
 
-		[Test]
-		public void should_handle_v1_call_center_project() {
-			Assert.IsTrue(qcReaderUpdater.HandlesV1Project("Call Center"));
-		}
-	}
+        [Test]
+        public void should_handle_v1_call_center_project()
+        {
+            Assert.IsTrue(qcReaderUpdater.HandlesV1Project("Call Center"));
+        }
+    }
+
 }
