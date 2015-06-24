@@ -54,14 +54,18 @@ namespace VersionOne.ServiceHost.ConfigurationTool.Entities {
         public AuthenticationTypes AuthenticationType { get; set; }
 
         [NonEmptyStringValidator]
-        public string AccessToken{ get; set; }
-            //    if (accessToken != value)
-            //        {
-            //            accessToken = value;
-            //        //    NotifyPropertyChanged();
-            //        }
-            //}
-       // }
+        public string AccessToken
+        {
+            get { return accessToken; }
+            set
+            {
+                if (accessToken != value)
+                {
+                    accessToken = value;
+                    //NotifyPropertyChanged();
+                }
+            }
+        }
 
       //  public event PropertyChangedEventHandler PropertyChanged;
 
