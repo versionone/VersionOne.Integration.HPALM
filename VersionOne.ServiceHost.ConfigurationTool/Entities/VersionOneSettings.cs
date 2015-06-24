@@ -1,6 +1,9 @@
+using System.ComponentModel;
+using System.Runtime.CompilerServices;
 using System.Xml.Serialization;
 using VersionOne.ServiceHost.ConfigurationTool.Validation;
 using VersionOne.ServiceHost.ConfigurationTool.Attributes;
+using VersionOne.ServiceHost.Core.Configuration;
 
 namespace VersionOne.ServiceHost.ConfigurationTool.Entities {
     /// <summary>
@@ -8,10 +11,20 @@ namespace VersionOne.ServiceHost.ConfigurationTool.Entities {
     /// </summary>
     [XmlRoot("Settings")]
     public class VersionOneSettings {
+        public const string AccessTokenAuthProperty = "AccessTokenAuth";
+        public const string BasicAuthProperty = "BasicAuth";
+        public const string IntegratedAuthProperty = "IntegratedAuth";
+
         public const string ApplicationUrlProperty = "ApplicationUrl";
+        public const string AccessTokenProperty = "AccessToken";
         public const string UsernameProperty = "Username";
         public const string PasswordProperty = "Password";
-        public const string IntegratedAuthProperty = "IntegratedAuth";
+
+       
+        private string applicationUrl;
+        private string accessToken;
+        private string username;
+        private string password;
 
         public VersionOneSettings() {
             ProxySettings = new ProxyConnectionSettings();
@@ -37,5 +50,29 @@ namespace VersionOne.ServiceHost.ConfigurationTool.Entities {
         public bool IntegratedAuth { get; set; }
 
         public ProxyConnectionSettings ProxySettings { get; set; }
+
+        public AuthenticationTypes AuthenticationType { get; set; }
+
+        [NonEmptyStringValidator]
+        public string AccessToken{ get; set; }
+            //    if (accessToken != value)
+            //        {
+            //            accessToken = value;
+            //        //    NotifyPropertyChanged();
+            //        }
+            //}
+       // }
+
+      //  public event PropertyChangedEventHandler PropertyChanged;
+
+        //protected virtual void NotifyPropertyChanged([CallerMemberName] string propertyName = "")
+        //{
+        //    if (PropertyChanged != null)
+        //    {
+        //        PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+        //    }
+        //}
+
+
     }
 }
