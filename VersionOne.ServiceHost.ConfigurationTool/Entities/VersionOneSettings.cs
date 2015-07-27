@@ -38,16 +38,49 @@ namespace VersionOne.ServiceHost.ConfigurationTool.Entities {
 
         [HelpString(HelpResourceKey="V1PageVersionOneUrl")]
         [NonEmptyStringValidator]
-        public string ApplicationUrl { get; set; }
+        public string ApplicationUrl
+        {
+            get { return applicationUrl; }
+            set
+            {
+                if (applicationUrl != value)
+                {
+                    applicationUrl = value;
+                    NotifyPropertyChanged();
+                }
+            }
+        }
 
         [NonEmptyStringValidator]
-        public string Username { get; set; }
+        public string Username
+        {
+            get { return username; }
+            set
+            {
+                if (username != value)
+                {
+                    username = value;
+                    NotifyPropertyChanged();
+                }
+            }
+        }
 
         [NonEmptyStringValidator]
-        public string Password { get; set; }
+        public string Password
+        {
+            get { return password; }
+            set
+            {
+                if (password != value)
+                {
+                    password = value;
+                    NotifyPropertyChanged();
+                }
+            }
+        }
 
-        [HelpString(HelpResourceKey="V1PageIntegratedAuth")]
-        public bool IntegratedAuth { get; set; }
+        //[HelpString(HelpResourceKey="V1PageIntegratedAuth")]
+        //public bool IntegratedAuth { get; set; }
 
         public ProxyConnectionSettings ProxySettings { get; set; }
 
@@ -67,15 +100,15 @@ namespace VersionOne.ServiceHost.ConfigurationTool.Entities {
             }
         }
 
-      //  public event PropertyChangedEventHandler PropertyChanged;
+        public event PropertyChangedEventHandler PropertyChanged;
 
-        //protected virtual void NotifyPropertyChanged([CallerMemberName] string propertyName = "")
-        //{
-        //    if (PropertyChanged != null)
-        //    {
-        //        PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-        //    }
-        //}
+        protected virtual void NotifyPropertyChanged([CallerMemberName] string propertyName = "")
+        {
+            if (PropertyChanged != null)
+            {
+                PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+            }
+        }
 
 
     }

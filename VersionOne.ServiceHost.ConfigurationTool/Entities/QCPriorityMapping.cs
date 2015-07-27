@@ -3,10 +3,13 @@ using VersionOne.ServiceHost.ConfigurationTool.Validation;
 
 namespace VersionOne.ServiceHost.ConfigurationTool.Entities {
     public class QCPriorityMapping {
+       
         private Mapping qualityCenterPriority;
-
+        
+        public const string VersionOnePriorityNameProperty = "VersionOnePriorityName";
         public const string VersionOnePriorityIdProperty = "VersionOnePriorityId";
         public const string QCPriorityNameProperty = "QCPriorityName";
+        public const string QCPriorityIdProperty = "QCPriorityId";
 
         public QCPriorityMapping() {
             QualityCenterPriority = new Mapping();

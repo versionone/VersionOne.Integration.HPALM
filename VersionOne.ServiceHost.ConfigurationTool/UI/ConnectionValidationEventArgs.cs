@@ -91,7 +91,7 @@ namespace VersionOne.ServiceHost.ConfigurationTool.UI {
             this.url = connectionSettings.ApplicationUrl;
             this.username = connectionSettings.Username;
             this.password = connectionSettings.Password;
-            this.integrated = connectionSettings.IntegratedAuth;
+           // this.integrated = connectionSettings.IntegratedAuth;
             this.useProxy = connectionSettings.ProxySettings.Enabled;
             this.proxyDomain = connectionSettings.ProxySettings.Domain;
             this.proxyUri = connectionSettings.ProxySettings.Uri;
