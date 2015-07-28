@@ -90,9 +90,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Dependencies\Microsoft.Practices.ObjectBuilder2.dll</HintPath>
     </Reference>
-    <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Newtonsoft.Json.6.0.8\lib\net45\Newtonsoft.Json.dll</HintPath>
+    <Reference Include="Newtonsoft.Json, Version=7.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.7.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="Ninject">
       <HintPath>..\packages\Ninject.3.2.2.0\lib\net45-full\Ninject.dll</HintPath>
@@ -106,8 +106,9 @@
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
-    <Reference Include="VersionOne.SDK.APIClient">
-      <HintPath>..\packages\VersionOne.SDK.APIClient.15.0.0.0\lib\net451\VersionOne.SDK.APIClient.dll</HintPath>
+    <Reference Include="VersionOne.SDK.APIClient, Version=15.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\VersionOne.SDK.APIClient.15.1.0.0\lib\net451\VersionOne.SDK.APIClient.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="VersionOne.ServiceHost.Core">
       <HintPath>..\packages\VersionOne.ServiceHost.Core.2.0.0.0\lib\net451\VersionOne.ServiceHost.Core.dll</HintPath>
