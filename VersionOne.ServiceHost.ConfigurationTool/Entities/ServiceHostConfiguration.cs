@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Microsoft.Practices.EnterpriseLibrary.Validation;
 using Microsoft.Practices.EnterpriseLibrary.Validation.Validators;
 using VersionOne.ServiceHost.ConfigurationTool.UI.Interfaces;
@@ -27,9 +28,7 @@ namespace VersionOne.ServiceHost.ConfigurationTool.Entities {
             get { return services; }
         }
 
-        public ServiceHostConfiguration() {
-            HasChanged = true;
-        }
+        public ServiceHostConfiguration() { }
 
         public ServiceHostConfiguration(IEnumerable<BaseServiceEntity> entities) : this() {
             foreach(var entity in entities) {
@@ -63,7 +62,7 @@ namespace VersionOne.ServiceHost.ConfigurationTool.Entities {
 
             if(qcServiceEntity != null && testServiceEntity != null) {
                 foreach (var mapping in testServiceEntity.Projects) {
-                    var matchingProject = qcServiceEntity.Projects.Find(item => string.Equals(item.Id, mapping.DestinationProject));
+                    var matchingProject = qcServiceEntity.Projects.ToList().Find(item => string.Equals(item.Id, mapping.DestinationProject));
 
                     if(matchingProject == null) {
                         var message = string.Format("Mapping '{0}' exists on Test Service page, but not on Quality Center page", mapping.DestinationProject);

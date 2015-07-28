@@ -1,16 +1,47 @@
+using System.ComponentModel;
+using System.Runtime.CompilerServices;
 using System.Xml.Serialization;
 using VersionOne.ServiceHost.ConfigurationTool.Validation;
 
 namespace VersionOne.ServiceHost.ConfigurationTool.Entities {
     [XmlRoot("DefectFilter")]
-    public class QCDefectFilter {
+    public class QCDefectFilter : INotifyPropertyChanged {
         public const string FieldNameProperty = "FieldName";
         public const string FieldValueProperty = "FieldValue";
 
-        [NonEmptyStringValidator]
-        public string FieldName { get; set; }
+        private string _fieldName;
+        private string _fieldValue;
 
-        public string FieldValue { get; set; }
+        [NonEmptyStringValidator]
+        public string FieldName {
+            get
+            {
+                return _fieldName;
+            }
+            set
+            {
+                if (!value.Equals(_fieldName))
+                {
+                    _fieldName = value;
+                    OnPropertyChanged();
+                }
+            } }
+
+        public string FieldValue
+        {
+            get
+            {
+                return _fieldValue;
+            }
+            set
+            {
+                if (!value.Equals(_fieldValue))
+                {
+                    _fieldValue = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
 
         public override bool Equals(object obj) {
             if(obj == null || obj.GetType() != typeof(QCDefectFilter)) {
@@ -24,6 +55,14 @@ namespace VersionOne.ServiceHost.ConfigurationTool.Entities {
 
         public override int GetHashCode() {
             return base.GetHashCode();
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            var handler = PropertyChanged;
+            if (handler != null) handler(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }

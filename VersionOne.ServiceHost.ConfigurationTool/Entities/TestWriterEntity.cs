@@ -18,29 +18,105 @@ namespace VersionOne.ServiceHost.ConfigurationTool.Entities {
         public const string DescriptionSuffixProperty = "DescriptionSuffix";
         public const string CreateDefectProperty = "CreateDefect";
 
+        private string _passedOid;
+        private string _failedOid;
+        private string _referenceAttribute;
+        private string _changeComment;
+        private string _descriptionSuffix;
+        private string _createDefect;
+
         [NonEmptyStringValidator]
         [HelpString(HelpResourceKey = "TestsPassedStatus")]
-        public string PassedOid { get; set; }
+        public string PassedOid {
+            get
+            {
+                return _passedOid;
+            }
+            set
+            {
+                if (!value.Equals(_passedOid))
+                {
+                    _passedOid = value;
+                    NotifyPropertyChanged();
+                }
+            } }
 
         [NonEmptyStringValidator]
         [HelpString(HelpResourceKey = "TestsFailedStatus")]
-        public string FailedOid { get; set; }
+        public string FailedOid {
+            get { return _failedOid; }
+            set
+            {
+                if (!value.Equals(_failedOid))
+                {
+                    _failedOid = value;
+                    NotifyPropertyChanged();
+                }
+            } }
 
         [XmlElement("TestReferenceAttribute")]
         [NonEmptyStringValidator]
         [HelpString(HelpResourceKey = "TestsReference")]
-        public string ReferenceAttribute { get; set; }
+        public string ReferenceAttribute {
+            get
+            {
+                return _referenceAttribute;
+            }
+            set
+            {
+                if (!value.Equals(_referenceAttribute))
+                {
+                    _referenceAttribute = value;
+                    NotifyPropertyChanged();
+                }
+            } }
 
         [StringLengthValidator(3, 255, MessageTemplate = "Comment length should be 3 to 255 chars")]
         [HelpString(HelpResourceKey = "TestsComment")]
-        public string ChangeComment { get; set; }
+        public string ChangeComment {
+            get
+            {
+                return _changeComment;
+            }
+            set
+            {
+                if (!value.Equals(_changeComment))
+                {
+                    _changeComment = value;
+                    NotifyPropertyChanged();
+                }
+            } }
 
         [HelpString(HelpResourceKey = "TestsDescription")]
-        public string DescriptionSuffix { get; set; }
+        public string DescriptionSuffix {
+            get
+            {
+                return _descriptionSuffix;
+            }
+            set
+            {
+                if (!value.Equals(_descriptionSuffix))
+                {
+                    _descriptionSuffix = value;
+                    NotifyPropertyChanged();
+                }
+            } }
 
         [NonEmptyStringValidator]
         [HelpString(HelpResourceKey = "TestsCreateDefect")]
-        public string CreateDefect { get; set; }
+        public string CreateDefect {
+            get
+            {
+                return _createDefect;
+            }
+            set
+            {
+                if (!value.Equals(_createDefect))
+                {
+                    _createDefect = value;
+                    NotifyPropertyChanged();
+                }
+            } }
 
         public VersionOneSettings Settings { get; set; }
 

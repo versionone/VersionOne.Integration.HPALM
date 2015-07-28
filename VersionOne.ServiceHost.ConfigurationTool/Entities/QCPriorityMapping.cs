@@ -1,8 +1,10 @@
+using System.ComponentModel;
+using System.Runtime.CompilerServices;
 using System.Xml.Serialization;
 using VersionOne.ServiceHost.ConfigurationTool.Validation;
 
 namespace VersionOne.ServiceHost.ConfigurationTool.Entities {
-    public class QCPriorityMapping {
+    public class QCPriorityMapping : INotifyPropertyChanged {
        
         private Mapping qualityCenterPriority;
         
@@ -27,14 +29,30 @@ namespace VersionOne.ServiceHost.ConfigurationTool.Entities {
         [NonEmptyStringValidator]
         public string VersionOnePriorityId {
             get { return VersionOnePriority.Id; }
-            set { VersionOnePriority.Id = value; }
+            set { if (!value.Equals(VersionOnePriority.Id))
+            {
+                VersionOnePriority.Id = value;
+                OnPropertyChanged();
+            } }
         }
 
         [XmlIgnore]
         [NonEmptyStringValidator]
         public string QCPriorityName {
             get { return qualityCenterPriority.Name; }
-            set { qualityCenterPriority.Name = value; }
+            set { if (!qualityCenterPriority.Name.Equals(value))
+            {
+                qualityCenterPriority.Name = value;
+                OnPropertyChanged();
+            } }
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            var handler = PropertyChanged;
+            if (handler != null) handler(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }
