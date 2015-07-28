@@ -1,13 +1,9 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
-VisualStudioVersion = 12.0.40629.0
+VisualStudioVersion = 12.0.21005.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VersionOne.ServiceHost", "VersionOne.ServiceHost\VersionOne.ServiceHost.csproj", "{AD53106A-5F5E-4BEA-B344-015397942E89}"
-	ProjectSection(ProjectDependencies) = postProject
-		{4759DD76-FC53-4122-AD95-193CEA15993B} = {4759DD76-FC53-4122-AD95-193CEA15993B}
-		{424084D5-C8B1-4593-B837-E1A7083E30AE} = {424084D5-C8B1-4593-B837-E1A7083E30AE}
-	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VersionOne.ServiceHost.QualityCenterServices.Tests", "VersionOne.ServiceHost.QualityCenter.Tests\VersionOne.ServiceHost.QualityCenterServices.Tests.csproj", "{5D002A01-8DAA-410D-9C0E-2AE326061A33}"
 EndProject
