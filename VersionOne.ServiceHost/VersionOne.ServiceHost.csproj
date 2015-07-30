@@ -153,6 +153,12 @@
       <Install>true</Install>
     </BootstrapperPackage>
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\VersionOne.ServiceHost.QualityCenterServices\VersionOne.ServiceHost.QualityCenterServices.csproj">
+      <Project>{4759dd76-fc53-4122-ad95-193cea15993b}</Project>
+      <Name>VersionOne.ServiceHost.QualityCenterServices</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
