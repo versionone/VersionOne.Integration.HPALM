@@ -343,29 +343,29 @@ namespace VersionOne.ServiceHost.QualityCenter.Tests
         }
     }
 
-    [TestClass]
-    [Ignore]
-    public class when_checking_for_test_updates : QualityCenterClientContext
-    {
-        [TestMethod]
-        public void should_find_some_changes()
-        {
-            DateTime lastCheck = new DateTime(2009, 07, 23, 10, 20, 00);
-            IList results = CallCenterConnection.GetLatestTestRuns(lastCheck);
-            Assert.AreNotEqual(0, results.Count);
-        }
-    }
+    //[TestClass]
+    //[Ignore]
+    //public class when_checking_for_test_updates : QualityCenterClientContext
+    //{
+    //    [TestMethod]
+    //    public void should_find_some_changes()
+    //    {
+    //        DateTime lastCheck = new DateTime(2009, 07, 23, 10, 20, 00);
+    //        IList results = CallCenterConnection.GetLatestTestRuns(lastCheck);
+    //        Assert.AreNotEqual(0, results.Count);
+    //    }
+    //}
 
-    [TestClass]
-    [Ignore]
-    public class when_checking_for_new_defects : QualityCenterClientContext
-    {
-        [TestMethod]
-        public void should_find_some_changes()
-        {
-            DateTime lastCheck = new DateTime(2009, 07, 23, 10, 20, 00);
-            IList results = CallCenterConnection.GetLatestDefects(lastCheck);
-            Assert.AreNotEqual(0, results.Count);
-        }
-    }
+    //[TestClass]
+    //[Ignore]
+    //public class when_checking_for_new_defects : QualityCenterClientContext
+    //{
+    //    [TestMethod]
+    //    public void should_find_some_changes()
+    //    {
+    //        DateTime lastCheck = new DateTime(2009, 07, 23, 10, 20, 00);
+    //        IList results = CallCenterConnection.GetLatestDefects(lastCheck);
+    //        Assert.AreNotEqual(0, results.Count);
+    //    }
+    //}
 }

@@ -1,5 +1,7 @@
 using System;
 using System.Collections;
+using System.Collections.Generic;
+using System.Xml.Linq;
 
 namespace VersionOne.ServiceHost.QualityCenterServices {
     public interface IQualityCenterClient : IDisposable {
@@ -16,12 +18,12 @@ namespace VersionOne.ServiceHost.QualityCenterServices {
         /// <summary>
         /// Get the latest test runs
         /// </summary>
-        IList GetLatestTestRuns(DateTime lastCheck);
+        IList<XDocument> GetLatestTestRuns(DateTime lastCheck);
 
         /// <summary>
         /// Get the latest Defects
         /// </summary>
-        IList GetLatestDefects(DateTime lastCheck);
+        IList<XDocument> GetLatestDefects(DateTime lastCheck);
 
         /// <summary>
         /// Get the fully qualified quality center name based on an identifier

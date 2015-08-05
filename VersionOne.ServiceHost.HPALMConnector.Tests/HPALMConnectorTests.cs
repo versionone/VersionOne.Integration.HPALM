@@ -40,24 +40,27 @@ namespace VersionOne.ServiceHost.HPALMConnector.Tests
             Assert.IsFalse(connector.IsAuthenticated);
         }
 
-        //[TestMethod]
-        //public void GetLatestTestRuns()
-        //{
-        //    var connector = new HPALMConnector("http://hpalm115.cloudapp.net:8080/qcbin");
-        //    connector.Authenticate("admin", "admin");
+        [TestMethod]
+        public void GetLatestTestRuns()
+        {
+            var connector = new HPALMConnector("http://hpalm115.cloudapp.net:8080/qcbin");
+            connector.Authenticate("admin", "admin");
 
-        //    var lastCheck = new DateTime(2015, 7, 30);
-        //    var filterParam = "{last-modified[>=\"" + lastCheck.ToString("yyyy-MM-dd HH:mm:00") + "\"]; user-01[AT*]}";
+            var lastCheck = new DateTime(2015, 7, 30);
+            var filterParam = "{last-modified[>=\"" + lastCheck.ToString("yyyy-MM-dd HH:mm:00") + "\"]; user-01[AT*]}";
 
-        //    var doc = connector.Get("/qcbin/rest/domains/Default/projects/VersionOne/tests?query=" + filterParam);
-        //    var testRuns = new List<QCTest>();
-        //    doc.Descendants("Entity").ToList().ForEach(testEntity => testRuns.Add(new QCTest(new XDocument(testEntity))));
+            var doc = connector.Get("/qcbin/rest/domains/Default/projects/VersionOne/customization/entities?extended-mode=y&entity-types=test&query=" + filterParam);
+            var testRuns = new List<HPALMTest>();
+            doc.Descendants("Entity").ToList().ForEach(testEntity => testRuns.Add(HPALMTest.FromXDocument(testEntity.Document)));
 
-        //    foreach (var testRun in testRuns)
-        //    {
-        //        var x = testRun.HaveBeenExecuted;
-        //    }
-        //}
+            foreach (var testRun in testRuns)
+            {
+                var user01Field = testRun.CustomFields["user-01"];
+                Assert.IsNotNull(user01Field);
+                Assert.IsTrue(user01Field.StartsWith("AT"));
+                Assert.IsTrue(testRun.LastModified >= lastCheck);
+            }
+        }
 
         [TestMethod]
         public void CreateTest()

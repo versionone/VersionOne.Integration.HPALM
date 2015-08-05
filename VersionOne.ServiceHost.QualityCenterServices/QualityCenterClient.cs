@@ -242,49 +242,29 @@ namespace VersionOne.ServiceHost.QualityCenterServices {
                     createdTestDoc.Descendants("Field").First(f => f.Attribute("Name").Value.Equals("id")).Value);
         }
 
-        // TODO use generic collections
-        public IList GetLatestTestRuns(DateTime lastCheck) {
-            IList testRuns = new ArrayList();
-            //ConnectToProject();
-            
-            //var filterString = GetLastCheckFilterString(lastCheck);
-            //var filter = (TDFilter) TestFoundry.Filter;
-            //filter["TS_VTS"] = filterString;
-            //filter[project.V1IdField] = "AT*";
+        public IList<XDocument> GetLatestTestRuns(DateTime lastCheck) {
+            var filterParam = "{last-modified[" + GetLastCheckFilterString(lastCheck) + "]; user-01[AT*];exec-status[<>\"No Run\"]}";
+            var resource = string.Format("/qcbin/rest/domains/{0}/projects/{1}/tests&query={2}", project.Domain,
+                project.Project, filterParam);
 
-            // This needs to be a global test factory so users can move test to other folders
-            //var factory = Server.TestFactory as TestFactory;
-            
-            //if (factory == null) {
-            //    throw new Exception("Quality Center failed to return a Test Factory");
-            //}
+            var latestTestsDoc = _connector.Get(resource);
 
-            //var tdTestList = factory.NewList(filter.Text);
-            
-            //foreach (var testRun in tdTestList) {
-            //    testRuns.Add(testRun);
-            //}
-
-            
-            return testRuns;
+            return latestTestsDoc.Descendants("Entity").Select(e => new XDocument(e.Document)).ToList();
         }
 
         // TODO use generic collections
-        public IList GetLatestDefects(DateTime lastCheck) {
-            IList bugList = new ArrayList();
-            //ConnectToProject();
-
-            var filter = (TDFilter) BugFoundry.Filter;
-
+        public IList<XDocument> GetLatestDefects(DateTime lastCheck) {
+            var filterParam = "{";
             foreach (var entry in defectFilters) {
-                filter[entry.Key] = entry.Value;
+                filterParam += string.Format("{0}[{1}]", entry.Key, entry.Value) + ";";
             }
+            filterParam += "}";
+            var resource = string.Format("/qcbin/rest/domains/{0}/projects/{1}/defects&query={2}", project.Domain,
+                project.Project, filterParam);
 
-            foreach (var bug in BugFoundry.NewList(filter.Text)) {
-                bugList.Add(bug);
-            }
+            var defectsDoc = _connector.Get(resource);
 
-            return bugList;
+            return defectsDoc.Descendants("Entity").Select(e => new XDocument(e.Document)).ToList(); ;
         }
 
         public void OnDefectCreated(string id, ICollection comments, string link) {

@@ -14,6 +14,7 @@ namespace VersionOne.ServiceHost.HPALMConnector.Entities
         public string ParentId { get; set; }
         public string Owner { get; set; }
         public string ExecutionStatus { get; private set; }
+        public DateTime LastModified { get; private set; }
 
         public bool HaveBeenExecuted
         {
@@ -42,6 +43,14 @@ namespace VersionOne.ServiceHost.HPALMConnector.Entities
                 fields.First(f => f.Attribute("Name").Value.Equals("owner")).Value;
             instance.Id =
                 fields.First(f => f.Attribute("Name").Value.Equals("id")).Value;
+            instance.LastModified =
+                Convert.ToDateTime(fields.First(f => f.Attribute("Name").Value.Equals("last-modified")).Value);
+
+            var customFields = fields.Where(f => f.Descendants("System").First().Value.Equals("false"));
+            foreach (var customField in customFields)
+            {
+                instance.CustomFields.Add(customField.Name.ToString(), customField.Value);
+            }
 
             return instance;
         }
