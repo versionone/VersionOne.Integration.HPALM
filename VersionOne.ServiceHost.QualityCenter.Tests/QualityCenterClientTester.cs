@@ -117,115 +117,115 @@ namespace VersionOne.ServiceHost.QualityCenter.Tests
         }
     }
 
-    public abstract class QualityCenterClientProjectConnectedContext : QualityCenterClientLoggedInContext
-    {
-        public override void Context()
-        {
-            base.Context();
-            CallCenterConnection.ConnectToProject();
-        }
-    }
+    //public abstract class QualityCenterClientProjectConnectedContext : QualityCenterClientLoggedInContext
+    //{
+    //    public override void Context()
+    //    {
+    //        base.Context();
+    //        CallCenterConnection.ConnectToProject();
+    //    }
+    //}
 
-    [TestClass]
-    [Ignore]
-    public class when_quality_center_connection_is_initialized_but_not_logged_in : QualityCenterClientContext
-    {
+    //[TestClass]
+    //[Ignore]
+    //public class when_quality_center_connection_is_initialized_but_not_logged_in : QualityCenterClientContext
+    //{
 
-        [TestMethod]
-        public void should_be_connected()
-        {
-            Assert.IsTrue(CallCenterConnection.IsConnected);
-        }
+    //    [TestMethod]
+    //    public void should_be_connected()
+    //    {
+    //        Assert.IsTrue(CallCenterConnection.IsConnected);
+    //    }
 
-        [TestMethod]
-        public void should_not_be_logged_in()
-        {
-            Assert.IsFalse(CallCenterConnection.IsLoggedIn);
-        }
+    //    [TestMethod]
+    //    public void should_not_be_logged_in()
+    //    {
+    //        Assert.IsFalse(CallCenterConnection.IsLoggedIn);
+    //    }
 
-        [TestMethod]
-        public void should_not_be_connected_to_the_project()
-        {
-            Assert.IsFalse(CallCenterConnection.IsProjectConnected);
-        }
-    }
+    //    [TestMethod]
+    //    public void should_not_be_connected_to_the_project()
+    //    {
+    //        Assert.IsFalse(CallCenterConnection.IsProjectConnected);
+    //    }
+    //}
 
-    [TestClass]
-    [Ignore]
-    public class after_calling_login_on_quality_center_connection : QualityCenterClientLoggedInContext
-    {
+    //[TestClass]
+    //[Ignore]
+    //public class after_calling_login_on_quality_center_connection : QualityCenterClientLoggedInContext
+    //{
 
-        [TestMethod]
-        public void should_be_connected()
-        {
-            Assert.IsTrue(CallCenterConnection.IsConnected);
-        }
+    //    [TestMethod]
+    //    public void should_be_connected()
+    //    {
+    //        Assert.IsTrue(CallCenterConnection.IsConnected);
+    //    }
 
-        [TestMethod]
-        public void should_be_logged_in()
-        {
-            Assert.IsTrue(CallCenterConnection.IsLoggedIn);
-        }
+    //    [TestMethod]
+    //    public void should_be_logged_in()
+    //    {
+    //        Assert.IsTrue(CallCenterConnection.IsLoggedIn);
+    //    }
 
-        [TestMethod]
-        public void should_not_be_connected_to_project()
-        {
-            Assert.IsFalse(CallCenterConnection.IsProjectConnected);
-        }
-    }
+    //    [TestMethod]
+    //    public void should_not_be_connected_to_project()
+    //    {
+    //        Assert.IsFalse(CallCenterConnection.IsProjectConnected);
+    //    }
+    //}
 
-    [TestClass]
-    [Ignore]
-    public class after_calling_connect_to_project_on_quality_center_connection : QualityCenterClientProjectConnectedContext
-    {
-        [TestMethod]
-        public void should_be_connected()
-        {
-            Assert.IsTrue(CallCenterConnection.IsConnected);
-        }
+    //[TestClass]
+    //[Ignore]
+    //public class after_calling_connect_to_project_on_quality_center_connection : QualityCenterClientProjectConnectedContext
+    //{
+    //    [TestMethod]
+    //    public void should_be_connected()
+    //    {
+    //        Assert.IsTrue(CallCenterConnection.IsConnected);
+    //    }
 
-        [TestMethod]
-        public void should_be_logged_in()
-        {
-            Assert.IsTrue(CallCenterConnection.IsLoggedIn);
-        }
+    //    [TestMethod]
+    //    public void should_be_logged_in()
+    //    {
+    //        Assert.IsTrue(CallCenterConnection.IsLoggedIn);
+    //    }
 
-        [TestMethod]
-        public void should_be_connected_to_project()
-        {
-            Assert.IsTrue(CallCenterConnection.IsProjectConnected);
-        }
-    }
+    //    [TestMethod]
+    //    public void should_be_connected_to_project()
+    //    {
+    //        Assert.IsTrue(CallCenterConnection.IsProjectConnected);
+    //    }
+    //}
 
-    [TestClass]
-    [Ignore]
-    public class after_calling_logout_on_quality_center_connection : QualityCenterClientProjectConnectedContext
-    {
+    //[TestClass]
+    //[Ignore]
+    //public class after_calling_logout_on_quality_center_connection : QualityCenterClientProjectConnectedContext
+    //{
 
-        public override void Context()
-        {
-            base.Context();
-            CallCenterConnection.Logout();
-        }
+    //    public override void Context()
+    //    {
+    //        base.Context();
+    //        CallCenterConnection.Logout();
+    //    }
 
-        [TestMethod]
-        public void should_be_connected()
-        {
-            Assert.IsTrue(CallCenterConnection.IsConnected);
-        }
+    //    [TestMethod]
+    //    public void should_be_connected()
+    //    {
+    //        Assert.IsTrue(CallCenterConnection.IsConnected);
+    //    }
 
-        [TestMethod]
-        public void should_not_be_logged_in()
-        {
-            Assert.IsFalse(CallCenterConnection.IsLoggedIn);
-        }
+    //    [TestMethod]
+    //    public void should_not_be_logged_in()
+    //    {
+    //        Assert.IsFalse(CallCenterConnection.IsLoggedIn);
+    //    }
 
-        [TestMethod]
-        public void should_not_be_project_connected()
-        {
-            Assert.IsFalse(CallCenterConnection.IsProjectConnected);
-        }
-    }
+    //    [TestMethod]
+    //    public void should_not_be_project_connected()
+    //    {
+    //        Assert.IsFalse(CallCenterConnection.IsProjectConnected);
+    //    }
+    //}
 
     [TestClass]
     [Ignore]

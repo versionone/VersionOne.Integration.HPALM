@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Net.Http;
+using System.Net.Http.Headers;
+using System.Text;
 using System.Xml.Linq;
 
 namespace VersionOne.ServiceHost.HPALMConnector
 {
-    public class HPALMConnector
+    public class HPALMConnector : IDisposable
     {
         //private readonly string _url;
         //private readonly string _userName;
@@ -55,6 +57,12 @@ namespace VersionOne.ServiceHost.HPALMConnector
             return XDocument.Parse(SendGet(resource).Content.ReadAsStringAsync().Result);
         }
 
+        public XDocument Post(string resource, XDocument data = null)
+        {
+            return XDocument.Parse(SendPost(resource, data).Content.ReadAsStringAsync().Result);
+        }
+
+
         private HttpResponseMessage SendGet(string resource)
         {
             var reqMessage = new HttpRequestMessage(HttpMethod.Get, resource);
@@ -67,7 +75,9 @@ namespace VersionOne.ServiceHost.HPALMConnector
         {
             var reqMessage = new HttpRequestMessage(HttpMethod.Post, resource);
             if (data != null)
-                reqMessage.Content = new StringContent(data.ToString());
+            {
+                reqMessage.Content = new StringContent(data.ToString(), Encoding.UTF8, "application/xml");
+            }
             
             var respMessage = _client.SendAsync(reqMessage).Result;
 
@@ -79,6 +89,12 @@ namespace VersionOne.ServiceHost.HPALMConnector
         {
            return new XDocument(new XElement("alm-authentication", new XElement("user", username),
                     new XElement("password", password)));
+        }
+
+        public void Dispose()
+        {
+            _client.Dispose();
+            _handler.Dispose();
         }
     }
 }

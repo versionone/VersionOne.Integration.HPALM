@@ -1,13 +1,14 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Xml;
 using VersionOne.ServiceHost.Core.Utility;
 using VersionOne.ServiceHost.Core.Logging;
 using TDAPIOLELib;
-
+using VersionOne.ServiceHost.HPALMConnector.Entities;
 using IList = System.Collections.IList;
 
 namespace VersionOne.ServiceHost.QualityCenterServices {
@@ -28,6 +29,8 @@ namespace VersionOne.ServiceHost.QualityCenterServices {
         private TestFactory testFactory;
         private BugFactory bugFactory;
 
+        private HPALMConnector.HPALMConnector _connector;
+
         private readonly IDictionary<string, string> defectFilters = new Dictionary<string, string>();
         private string qcCreateStatusValue;
         private string qcCloseStatusValue;
@@ -37,65 +40,79 @@ namespace VersionOne.ServiceHost.QualityCenterServices {
             this.log = log;
 
             SetConfiguration(config);
+            _connector = new HPALMConnector.HPALMConnector(url);
         }
 
         public bool IsLoggedIn {
-            get { return Server.LoggedIn; }
+            get { return _connector.IsAuthenticated; }
         }
 
-        public bool IsConnected {
-            get { return Server.Connected; }
-        }
+        //public bool IsConnected {
+        //    get { return Server.Connected; }
+        //}
 
-        public bool IsProjectConnected {
-            get { return Server.ProjectConnected; }
-        }
+        //public bool IsProjectConnected {
+        //    get { return Server.ProjectConnected; }
+        //}
 
         public QCProject ProjectInfo {
             get { return project; }
         }
 
 
-        private TDConnection Server {
-            get {
-                if (server == null) {
+        private TDConnection Server
+        {
+            get
+            {
+                if (server == null)
+                {
                     server = new TDConnection();
                 }
 
-                if (!server.Connected) {
+                if (!server.Connected)
+                {
                     server.InitConnectionEx(url);
                 }
-                
+
                 return server;
             }
         }
 
-        private TestFactory TestFoundry {
+        private TestFactory TestFoundry
+        {
             // This name is used so we don't confuse our TestFactory w/ QC TestFactory
-            get {
-                if (testFactory == null) {
+            get
+            {
+                if (testFactory == null)
+                {
                     var treeManager = Server.TreeManager as TreeManager;
-                    
-                    if (treeManager == null) {
+
+                    if (treeManager == null)
+                    {
                         throw new Exception("Quality Center did not return a TreeManager");
                     }
 
                     var rootNode = treeManager["Subject"] as SubjectNode;
-                    
-                    if(rootNode == null) {
+
+                    if (rootNode == null)
+                    {
                         throw new Exception("Quality Center does not contain a root folder called \"Subject\"");
                     }
 
                     SubjectNode versionOneNode;
-                    
-                    try {
+
+                    try
+                    {
                         versionOneNode = (rootNode.FindChildNode(project.TestFolder) ?? rootNode.AddNode(project.TestFolder)) as SubjectNode;
-                    } catch (COMException ex) {
+                    }
+                    catch (COMException ex)
+                    {
                         log.Log(LogMessage.SeverityType.Debug, string.Format("Node Not Found"), ex);
                         versionOneNode = rootNode.AddNode(project.TestFolder) as SubjectNode;
                     }
 
-                    if (versionOneNode == null) {
+                    if (versionOneNode == null)
+                    {
                         throw new Exception(
                             string.Format(
                                 "Failed to create folder with the name {0}.  It must be created manually for project {1}",
@@ -109,9 +126,10 @@ namespace VersionOne.ServiceHost.QualityCenterServices {
             }
         }
 
-        private BugFactory BugFoundry {
+        private BugFactory BugFoundry
+        {
             // This name is used so we don't confuse our BugFactory w/ QC BugFactory
-            get { return bugFactory ?? (bugFactory = (BugFactory) Server.BugFactory); }
+            get { return bugFactory ?? (bugFactory = (BugFactory)Server.BugFactory); }
         }
 
         public static bool HasLastRun(object testObj) {
@@ -156,61 +174,86 @@ namespace VersionOne.ServiceHost.QualityCenterServices {
         }
 
         public void Dispose() {
-            Server.Disconnect();
-            Server.ReleaseConnection();
-            server = null;
+            //Server.Disconnect();
+            //Server.ReleaseConnection();
+            //server = null;
+            _connector.Dispose();
+            _connector = null;
         }
 
         public void Login() {
             if (!IsLoggedIn) {
-                Server.Login(userName, password);
+                //Server.Login(userName, password);
+                _connector.Authenticate(userName, password);
             }
         }
 
-        public void ConnectToProject() {
-            Login();
+        //public void ConnectToProject() {
+        //    Login();
 
-            if (IsProjectConnected) {
-                return;
-            }
+        //    if (IsProjectConnected) {
+        //        return;
+        //    }
 
-            try {
-                Server.Connect(project.Domain, project.Project);
-            } catch (COMException) {
-                log.Log(LogMessage.SeverityType.Error,
-                        string.Format("*** Exception connecting to Domain=\"{0}\" Project=\"{1}\"", project.Domain, project.Project));
-                throw;
-            }
+        //    try {
+        //        Server.Connect(project.Domain, project.Project);
+        //    } catch (COMException) {
+        //        log.Log(LogMessage.SeverityType.Error,
+        //                string.Format("*** Exception connecting to Domain=\"{0}\" Project=\"{1}\"", project.Domain, project.Project));
+        //        throw;
+        //    }
 
-            if (!IsConnected) {
-                throw new ConfigurationException(
-                    string.Format("*** Failed to connect.  Domain=\"{0}\" Project=\"{1}\"",
-                    project.Domain, project.Project));
-            }
-        }
+        //    if (!IsConnected) {
+        //        throw new ConfigurationException(
+        //            string.Format("*** Failed to connect.  Domain=\"{0}\" Project=\"{1}\"",
+        //            project.Domain, project.Project));
+        //    }
+        //}
 
         public void Logout() {
-            Server.Logout();
+            //Server.Logout();
+            _connector.Logout();
         }
 
         public string CreateQCTest(string title, string description, string externalId) {
-            ConnectToProject();
+            //ConnectToProject();
 
-            var test = TestFoundry.AddItem(DBNull.Value) as Test;
+            //var test = TestFoundry.AddItem(DBNull.Value) as Test;
 
-            test.Name = title;
-            test["TS_DESCRIPTION"] = "<html><body>" + description + "</body></html>";
-            test["TS_STATUS"] = project.TestStatus;
-            test[project.V1IdField] = externalId;
+            //test.Name = title;
+            //test["TS_DESCRIPTION"] = "<html><body>" + description + "</body></html>";
+            //test["TS_STATUS"] = project.TestStatus;
+            //test[project.V1IdField] = externalId;
 
-            test.Post();
-            return GetFullyQualifiedQCId(test.ID.ToString());
+            //test.Post();
+            //return GetFullyQualifiedQCId(test.ID.ToString());
+            var resource = string.Format("qcbin/rest/domains/{0}/projects/{1}/test-folders?query={{name[{2}]}}",
+                project.Domain, project.Project, project.TestFolder);
+            var folderDoc = _connector.Get(resource);
+            var folderId = folderDoc.Elements().First(e => e.Name == "id").Value;
+
+            var testDesc = string.Format("<html><body>{0}</body></html>", description);
+            var test = new HPALMTest()
+            {   
+                Name = title,
+                Description = testDesc,
+                Status = project.TestStatus,
+                ParentId = folderId,
+                Owner = userName
+            };
+            test.CustomFields.Add(project.V1IdField, externalId);
+
+            resource = string.Format("/qcbin/rest/domains/{0}/projects/{1}/tests", project.Domain, project.Project);
+
+            var createdTest = HPALMTest.FromXDocument(_connector.Post(resource, test.GetXmlPayload()));
+
+            return GetFullyQualifiedQCId(createdTest.Id);
         }
 
         // TODO use generic collections
         public IList GetLatestTestRuns(DateTime lastCheck) {
             IList testRuns = new ArrayList();
-            ConnectToProject();
+            //ConnectToProject();
             
             var filterString = GetLastCheckFilterString(lastCheck);
             var filter = (TDFilter) TestFoundry.Filter;
@@ -236,7 +279,7 @@ namespace VersionOne.ServiceHost.QualityCenterServices {
         // TODO use generic collections
         public IList GetLatestDefects(DateTime lastCheck) {
             IList bugList = new ArrayList();
-            ConnectToProject();
+            //ConnectToProject();
 
             var filter = (TDFilter) BugFoundry.Filter;
 
@@ -252,7 +295,7 @@ namespace VersionOne.ServiceHost.QualityCenterServices {
         }
 
         public void OnDefectCreated(string id, ICollection comments, string link) {
-            ConnectToProject();
+            //ConnectToProject();
             var bug = UpdateDefectStatus(id, qcCreateStatusValue, comments);
             var attachmentFactory = (AttachmentFactory) bug.Attachments;
             var attachment = (Attachment) attachmentFactory.AddItem(link);
@@ -260,7 +303,7 @@ namespace VersionOne.ServiceHost.QualityCenterServices {
         }
 
         public bool OnDefectStateChange(string id, ICollection comments) {
-            ConnectToProject();
+            //ConnectToProject();
             return UpdateDefectStatus(id, qcCloseStatusValue, comments) != null;
         }
 
@@ -273,12 +316,12 @@ namespace VersionOne.ServiceHost.QualityCenterServices {
 
         public int GetTestCount() {
             Login();
-            ConnectToProject();
+            //ConnectToProject();
             return TestFoundry.NewList("").Count;
         }
 
         public Bug CreateQCDefect() {
-            ConnectToProject();
+            //ConnectToProject();
             string summary = "A Test Defect " + Guid.NewGuid();
             Bug bug = (Bug) BugFoundry.AddItem(summary);
             bug.Summary = summary;

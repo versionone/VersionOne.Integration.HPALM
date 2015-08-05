@@ -40,23 +40,46 @@ namespace VersionOne.ServiceHost.HPALMConnector.Tests
             Assert.IsFalse(connector.IsAuthenticated);
         }
 
+        //[TestMethod]
+        //public void GetLatestTestRuns()
+        //{
+        //    var connector = new HPALMConnector("http://hpalm115.cloudapp.net:8080/qcbin");
+        //    connector.Authenticate("admin", "admin");
+
+        //    var lastCheck = new DateTime(2015, 7, 30);
+        //    var filterParam = "{last-modified[>=\"" + lastCheck.ToString("yyyy-MM-dd HH:mm:00") + "\"]; user-01[AT*]}";
+
+        //    var doc = connector.Get("/qcbin/rest/domains/Default/projects/VersionOne/tests?query=" + filterParam);
+        //    var testRuns = new List<QCTest>();
+        //    doc.Descendants("Entity").ToList().ForEach(testEntity => testRuns.Add(new QCTest(new XDocument(testEntity))));
+
+        //    foreach (var testRun in testRuns)
+        //    {
+        //        var x = testRun.HaveBeenExecuted;
+        //    }
+        //}
+
         [TestMethod]
-        public void GetLatestTestRuns()
+        public void CreateTest()
         {
             var connector = new HPALMConnector("http://hpalm115.cloudapp.net:8080/qcbin");
             connector.Authenticate("admin", "admin");
 
-            var lastCheck = new DateTime(2015, 7, 30);
-            var filterParam = "{last-modified[>=\"" + lastCheck.ToString("yyyy-MM-dd HH:mm:00") + "\"]; user-01[AT*]}";
-
-            var doc = connector.Get("/qcbin/rest/domains/Default/projects/VersionOne/tests?query=" + filterParam);
-            var testRuns = new List<QCTest>();
-            doc.Descendants("Entity").ToList().ForEach(testEntity => testRuns.Add(new QCTest(new XDocument(testEntity))));
-
-            foreach (var testRun in testRuns)
+            var test = new HPALMTest()
             {
-                var x = testRun.HaveBeenExecuted;
-            }
+                Name = "Test #1000",
+                Description = "Test desc...",
+                Status = "Imported",
+                ParentId = "1002",
+                Owner = "admin"
+            };
+            test.CustomFields.Add("user-01", "AT-99999");
+
+            var resource = string.Format("/qcbin/rest/domains/{0}/projects/{1}/tests", "Default", "VersionOne");
+
+            var createdTest = HPALMTest.FromXDocument(connector.Post(resource, test.GetXmlPayload()));
+
+            Assert.IsNotNull(createdTest.Id);
         }
     }
 }
