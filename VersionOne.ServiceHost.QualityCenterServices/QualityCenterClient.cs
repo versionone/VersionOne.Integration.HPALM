@@ -5,6 +5,7 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Xml;
+using System.Xml.Linq;
 using VersionOne.ServiceHost.Core.Utility;
 using VersionOne.ServiceHost.Core.Logging;
 using TDAPIOLELib;
@@ -216,38 +217,29 @@ namespace VersionOne.ServiceHost.QualityCenterServices {
         }
 
         public string CreateQCTest(string title, string description, string externalId) {
-            //ConnectToProject();
-
-            //var test = TestFoundry.AddItem(DBNull.Value) as Test;
-
-            //test.Name = title;
-            //test["TS_DESCRIPTION"] = "<html><body>" + description + "</body></html>";
-            //test["TS_STATUS"] = project.TestStatus;
-            //test[project.V1IdField] = externalId;
-
-            //test.Post();
-            //return GetFullyQualifiedQCId(test.ID.ToString());
             var resource = string.Format("qcbin/rest/domains/{0}/projects/{1}/test-folders?query={{name[{2}]}}",
                 project.Domain, project.Project, project.TestFolder);
             var folderDoc = _connector.Get(resource);
-            var folderId = folderDoc.Elements().First(e => e.Name == "id").Value;
 
+            var folderId = folderDoc.Elements().First(e => e.Name == "id").Value;
             var testDesc = string.Format("<html><body>{0}</body></html>", description);
-            var test = new HPALMTest()
-            {   
-                Name = title,
-                Description = testDesc,
-                Status = project.TestStatus,
-                ParentId = folderId,
-                Owner = userName
-            };
-            test.CustomFields.Add(project.V1IdField, externalId);
+            
+            var payload = XDocument.Parse("<Entity Type=\"test\"></Entity>");
+            var fields = new XElement("Fields");
+            fields.Add(new XElement("Field", new XAttribute("Name", "name"), new XElement("Value", title)));
+            fields.Add(new XElement("Field", new XAttribute("Name", "description"), new XElement("Value", testDesc)));
+            fields.Add(new XElement("Field", new XAttribute("Name", "status"), new XElement("Value", project.TestStatus)));
+            fields.Add(new XElement("Field", new XAttribute("Name", "parent-id"), new XElement("Value", folderId)));
+            fields.Add(new XElement("Field", new XAttribute("Name", "owner"), new XElement("Value", userName)));
+            fields.Add(new XElement("Field", new XAttribute("Name", "subtype-id"), new XElement("Value", "MANUAL")));
+            fields.Add(new XElement("Field", new XAttribute("Name", project.V1IdField), new XElement("Value", externalId)));
 
             resource = string.Format("/qcbin/rest/domains/{0}/projects/{1}/tests", project.Domain, project.Project);
+            var createdTestDoc = _connector.Post(resource, payload);
 
-            var createdTest = HPALMTest.FromXDocument(_connector.Post(resource, test.GetXmlPayload()));
-
-            return GetFullyQualifiedQCId(createdTest.Id);
+            return
+                GetFullyQualifiedQCId(
+                    createdTestDoc.Descendants("Field").First(f => f.Attribute("Name").Value.Equals("id")).Value);
         }
 
         // TODO use generic collections
@@ -255,23 +247,24 @@ namespace VersionOne.ServiceHost.QualityCenterServices {
             IList testRuns = new ArrayList();
             //ConnectToProject();
             
-            var filterString = GetLastCheckFilterString(lastCheck);
-            var filter = (TDFilter) TestFoundry.Filter;
-            filter["TS_VTS"] = filterString;
-            filter[project.V1IdField] = "AT*";
+            //var filterString = GetLastCheckFilterString(lastCheck);
+            //var filter = (TDFilter) TestFoundry.Filter;
+            //filter["TS_VTS"] = filterString;
+            //filter[project.V1IdField] = "AT*";
 
             // This needs to be a global test factory so users can move test to other folders
-            var factory = Server.TestFactory as TestFactory;
+            //var factory = Server.TestFactory as TestFactory;
             
-            if (factory == null) {
-                throw new Exception("Quality Center failed to return a Test Factory");
-            }
+            //if (factory == null) {
+            //    throw new Exception("Quality Center failed to return a Test Factory");
+            //}
 
-            var tdTestList = factory.NewList(filter.Text);
+            //var tdTestList = factory.NewList(filter.Text);
             
-            foreach (var testRun in tdTestList) {
-                testRuns.Add(testRun);
-            }
+            //foreach (var testRun in tdTestList) {
+            //    testRuns.Add(testRun);
+            //}
+
             
             return testRuns;
         }
