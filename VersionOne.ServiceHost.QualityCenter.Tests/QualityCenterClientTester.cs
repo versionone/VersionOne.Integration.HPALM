@@ -263,21 +263,21 @@ namespace VersionOne.ServiceHost.QualityCenter.Tests
         private int beforeAttachmentCount;
         #endregion
 
-        public override void Context()
-        {
-            base.Context();
-            _qcBug = CallCenterConnection.CreateQCDefect();
-            beforeStatus = _qcBug.Status;
-            beforeComments = (string)_qcBug["BG_DEV_COMMENTS"] + "";
-            beforeAttachmentCount = ((AttachmentFactory)_qcBug.Attachments).NewList("").Count;
+        //public override void Context()
+        //{
+        //    base.Context();
+        //    _qcBug = CallCenterConnection.CreateQCDefect();
+        //    beforeStatus = _qcBug.Status;
+        //    beforeComments = (string)_qcBug["BG_DEV_COMMENTS"] + "";
+        //    beforeAttachmentCount = ((AttachmentFactory)_qcBug.Attachments).NewList("").Count;
 
-            List<string> comments = new List<string>();
-            comments.Add("We pretended to create this defect in VersionOne");
-            comments.Add("This is the data returned by the V1 server");
+        //    List<string> comments = new List<string>();
+        //    comments.Add("We pretended to create this defect in VersionOne");
+        //    comments.Add("This is the data returned by the V1 server");
 
-            CallCenterConnection.OnDefectCreated(QualityCenterClient.DefectID(_qcBug), comments, "http://localhost/versionone/assetdetail.v1?oid=Defect%3a1410");
-            _qcBug.Refresh();
-        }
+        //    CallCenterConnection.OnDefectCreated(QualityCenterClient.DefectID(_qcBug), comments, "http://localhost/versionone/assetdetail.v1?oid=Defect%3a1410");
+        //    _qcBug.Refresh();
+        //}
 
         [TestMethod]
         public void should_change_status()
@@ -301,47 +301,47 @@ namespace VersionOne.ServiceHost.QualityCenter.Tests
         }
     }
 
-    /**
-     * this test creates a defect in QC, then pretends it was closed in VersionOne
-     */
-    [TestClass]
-    [Ignore]
-    public class when_updating_a_defect_after_it_is_closed_in_v1 : QualityCenterClientContext
-    {
-        #region Attributes necessary for this test
-        private Bug _qcBug;
-        private string beforeStatus;
-        private string beforeComments;
-        #endregion
+    ///**
+    // * this test creates a defect in QC, then pretends it was closed in VersionOne
+    // */
+    //[TestClass]
+    //[Ignore]
+    //public class when_updating_a_defect_after_it_is_closed_in_v1 : QualityCenterClientContext
+    //{
+    //    #region Attributes necessary for this test
+    //    private Bug _qcBug;
+    //    private string beforeStatus;
+    //    private string beforeComments;
+    //    #endregion
 
-        public override void Context()
-        {
-            base.Context();
-            _qcBug = CallCenterConnection.CreateQCDefect();
-            beforeStatus = _qcBug.Status;
-            beforeComments = (string)_qcBug["BG_DEV_COMMENTS"] + "";
+    //    public override void Context()
+    //    {
+    //        base.Context();
+    //        _qcBug = CallCenterConnection.CreateQCDefect();
+    //        beforeStatus = _qcBug.Status;
+    //        beforeComments = (string)_qcBug["BG_DEV_COMMENTS"] + "";
 
-            List<string> comments = new List<string>();
-            comments.Add("We pretended to close this defect in VersionOne");
+    //        List<string> comments = new List<string>();
+    //        comments.Add("We pretended to close this defect in VersionOne");
 
-            CallCenterConnection.OnDefectStateChange(QualityCenterClient.DefectID(_qcBug), comments);
-            _qcBug.Refresh();
-        }
+    //        CallCenterConnection.OnDefectStateChange(QualityCenterClient.DefectID(_qcBug), comments);
+    //        _qcBug.Refresh();
+    //    }
 
-        [TestMethod]
-        public void should_change_status()
-        {
-            string afterStatus = _qcBug.Status;
-            Assert.AreNotEqual(beforeStatus, afterStatus);
-        }
+        //[TestMethod]
+        //public void should_change_status()
+        //{
+        //    string afterStatus = _qcBug.Status;
+        //    Assert.AreNotEqual(beforeStatus, afterStatus);
+        //}
 
-        [TestMethod]
-        public void should_add_comments()
-        {
-            string afterComments = (string)_qcBug["BG_DEV_COMMENTS"] + "";
-            Assert.IsTrue(afterComments.Length > beforeComments.Length);
-        }
-    }
+        //[TestMethod]
+        //public void should_add_comments()
+        //{
+        //    string afterComments = (string)_qcBug["BG_DEV_COMMENTS"] + "";
+        //    Assert.IsTrue(afterComments.Length > beforeComments.Length);
+        //}
+    //}
 
     //[TestClass]
     //[Ignore]

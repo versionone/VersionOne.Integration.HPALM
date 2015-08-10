@@ -2,15 +2,10 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.InteropServices;
 using System.Text;
 using System.Xml;
 using System.Xml.Linq;
-using VersionOne.ServiceHost.Core.Utility;
 using VersionOne.ServiceHost.Core.Logging;
-using TDAPIOLELib;
-using VersionOne.ServiceHost.HPALMConnector.Entities;
-using IList = System.Collections.IList;
 
 namespace VersionOne.ServiceHost.QualityCenterServices {
     // TODO refactor and extract bunch of classes
@@ -26,9 +21,9 @@ namespace VersionOne.ServiceHost.QualityCenterServices {
         private string password;
         private readonly QCProject project;
 
-        private TDConnection server;
-        private TestFactory testFactory;
-        private BugFactory bugFactory;
+        //private TDConnection server;
+        //private TestFactory testFactory;
+        //private BugFactory bugFactory;
 
         private HPALMConnector.HPALMConnector _connector;
 
@@ -59,120 +54,119 @@ namespace VersionOne.ServiceHost.QualityCenterServices {
         public QCProject ProjectInfo {
             get { return project; }
         }
+        
+        //private TDConnection Server
+        //{
+        //    get
+        //    {
+        //        if (server == null)
+        //        {
+        //            server = new TDConnection();
+        //        }
 
+        //        if (!server.Connected)
+        //        {
+        //            server.InitConnectionEx(url);
+        //        }
 
-        private TDConnection Server
-        {
-            get
-            {
-                if (server == null)
-                {
-                    server = new TDConnection();
-                }
+        //        return server;
+        //    }
+        //}
 
-                if (!server.Connected)
-                {
-                    server.InitConnectionEx(url);
-                }
+        //private TestFactory TestFoundry
+        //{
+        //    // This name is used so we don't confuse our TestFactory w/ QC TestFactory
+        //    get
+        //    {
+        //        if (testFactory == null)
+        //        {
+        //            var treeManager = Server.TreeManager as TreeManager;
 
-                return server;
-            }
-        }
+        //            if (treeManager == null)
+        //            {
+        //                throw new Exception("Quality Center did not return a TreeManager");
+        //            }
 
-        private TestFactory TestFoundry
-        {
-            // This name is used so we don't confuse our TestFactory w/ QC TestFactory
-            get
-            {
-                if (testFactory == null)
-                {
-                    var treeManager = Server.TreeManager as TreeManager;
+        //            var rootNode = treeManager["Subject"] as SubjectNode;
 
-                    if (treeManager == null)
-                    {
-                        throw new Exception("Quality Center did not return a TreeManager");
-                    }
+        //            if (rootNode == null)
+        //            {
+        //                throw new Exception("Quality Center does not contain a root folder called \"Subject\"");
+        //            }
 
-                    var rootNode = treeManager["Subject"] as SubjectNode;
+        //            SubjectNode versionOneNode;
 
-                    if (rootNode == null)
-                    {
-                        throw new Exception("Quality Center does not contain a root folder called \"Subject\"");
-                    }
+        //            try
+        //            {
+        //                versionOneNode = (rootNode.FindChildNode(project.TestFolder) ?? rootNode.AddNode(project.TestFolder)) as SubjectNode;
+        //            }
+        //            catch (COMException ex)
+        //            {
+        //                log.Log(LogMessage.SeverityType.Debug, string.Format("Node Not Found"), ex);
+        //                versionOneNode = rootNode.AddNode(project.TestFolder) as SubjectNode;
+        //            }
 
-                    SubjectNode versionOneNode;
+        //            if (versionOneNode == null)
+        //            {
+        //                throw new Exception(
+        //                    string.Format(
+        //                        "Failed to create folder with the name {0}.  It must be created manually for project {1}",
+        //                        project.TestFolder, project.Project));
+        //            }
 
-                    try
-                    {
-                        versionOneNode = (rootNode.FindChildNode(project.TestFolder) ?? rootNode.AddNode(project.TestFolder)) as SubjectNode;
-                    }
-                    catch (COMException ex)
-                    {
-                        log.Log(LogMessage.SeverityType.Debug, string.Format("Node Not Found"), ex);
-                        versionOneNode = rootNode.AddNode(project.TestFolder) as SubjectNode;
-                    }
+        //            testFactory = versionOneNode.TestFactory as TestFactory;
+        //        }
 
-                    if (versionOneNode == null)
-                    {
-                        throw new Exception(
-                            string.Format(
-                                "Failed to create folder with the name {0}.  It must be created manually for project {1}",
-                                project.TestFolder, project.Project));
-                    }
+        //        return testFactory;
+        //    }
+        //}
 
-                    testFactory = versionOneNode.TestFactory as TestFactory;
-                }
+        //private BugFactory BugFoundry
+        //{
+        //    // This name is used so we don't confuse our BugFactory w/ QC BugFactory
+        //    get { return bugFactory ?? (bugFactory = (BugFactory)Server.BugFactory); }
+        //}
 
-                return testFactory;
-            }
-        }
+        //public static bool HasLastRun(object testObj) {
+        //    var test = (Test) testObj;
+        //    return test.LastRun != null;
+        //    //var x = test.LastRun != null;
+        //}
 
-        private BugFactory BugFoundry
-        {
-            // This name is used so we don't confuse our BugFactory w/ QC BugFactory
-            get { return bugFactory ?? (bugFactory = (BugFactory)Server.BugFactory); }
-        }
+        //public static string TestID(object testObj) {
+        //    var test = (Test) testObj;
+        //    return test.ID.ToString();
+        //}
 
-        public static bool HasLastRun(object testObj) {
-            var test = (Test) testObj;
-            return test.LastRun != null;
-            //var x = test.LastRun != null;
-        }
+        //public static DateTime TimeStamp(object testObj) {
+        //    var test = (Test) testObj;
+        //    return DateTime.Parse(test["TS_VTS"].ToString());
+        //}
 
-        public static string TestID(object testObj) {
-            var test = (Test) testObj;
-            return test.ID.ToString();
-        }
+        //public static string LastRunStatus(object testObj) {
+        //    var test = (Test) testObj;
+        //    return ((Run) test.LastRun).Status;
+        //}
 
-        public static DateTime TimeStamp(object testObj) {
-            var test = (Test) testObj;
-            return DateTime.Parse(test["TS_VTS"].ToString());
-        }
+        //public static string DefectID(object bugObj) {
+        //    var bug = (Bug) bugObj;
+        //    return bug.ID.ToString();
+        //}
 
-        public static string LastRunStatus(object testObj) {
-            var test = (Test) testObj;
-            return ((Run) test.LastRun).Status;
-        }
+        //public static string DefectSummary(object bugObj) {
+        //    var bug = (Bug) bugObj;
+        //    return bug.Summary;
+        //}
 
-        public static string DefectID(object bugObj) {
-            var bug = (Bug) bugObj;
-            return bug.ID.ToString();
-        }
+        //public static string DefectDescription(object bugObj) {
+        //    var bug = (Bug) bugObj;
+        //    return (string) bug["BG_DESCRIPTION"];
+        //}
 
-        public static string DefectSummary(object bugObj) {
-            var bug = (Bug) bugObj;
-            return bug.Summary;
-        }
-
-        public static string DefectDescription(object bugObj) {
-            var bug = (Bug) bugObj;
-            return (string) bug["BG_DESCRIPTION"];
-        }
-
-        public static string DefectPriority(object bugObj) {
-            var bug = (Bug) bugObj;
-            return bug.Priority;
-        }
+        //public static string DefectPriority(object bugObj) {
+        //    var bug = (Bug) bugObj;
+        //    return bug.Priority;
+        //}
 
         public void Dispose() {
             //Server.Disconnect();
@@ -217,11 +211,12 @@ namespace VersionOne.ServiceHost.QualityCenterServices {
         }
 
         public string CreateQCTest(string title, string description, string externalId) {
+            Login();
             var resource = string.Format("qcbin/rest/domains/{0}/projects/{1}/test-folders?query={{name[{2}]}}",
                 project.Domain, project.Project, project.TestFolder);
             var folderDoc = _connector.Get(resource);
 
-            var folderId = folderDoc.Elements().First(e => e.Name == "id").Value;
+            var folderId = folderDoc.Descendants("Field").First(f => f.Attribute("Name").Value == "id").Value;
             var testDesc = string.Format("<html><body>{0}</body></html>", description);
             
             var payload = XDocument.Parse("<Entity Type=\"test\"></Entity>");
@@ -233,6 +228,7 @@ namespace VersionOne.ServiceHost.QualityCenterServices {
             fields.Add(new XElement("Field", new XAttribute("Name", "owner"), new XElement("Value", userName)));
             fields.Add(new XElement("Field", new XAttribute("Name", "subtype-id"), new XElement("Value", "MANUAL")));
             fields.Add(new XElement("Field", new XAttribute("Name", project.V1IdField), new XElement("Value", externalId)));
+            payload.Elements().First().Add(fields);
 
             resource = string.Format("/qcbin/rest/domains/{0}/projects/{1}/tests", project.Domain, project.Project);
             var createdTestDoc = _connector.Post(resource, payload);
@@ -243,8 +239,9 @@ namespace VersionOne.ServiceHost.QualityCenterServices {
         }
 
         public IList<XDocument> GetLatestTestRuns(DateTime lastCheck) {
+            Login();
             var filterParam = "{last-modified[" + GetLastCheckFilterString(lastCheck) + "]; user-01[AT*];exec-status[<>\"No Run\"]}";
-            var resource = string.Format("/qcbin/rest/domains/{0}/projects/{1}/tests&query={2}", project.Domain,
+            var resource = string.Format("/qcbin/rest/domains/{0}/projects/{1}/tests?query={2}", project.Domain,
                 project.Project, filterParam);
 
             var latestTestsDoc = _connector.Get(resource);
@@ -254,25 +251,31 @@ namespace VersionOne.ServiceHost.QualityCenterServices {
 
         // TODO use generic collections
         public IList<XDocument> GetLatestDefects(DateTime lastCheck) {
+            Login();
             var filterParam = "{";
             foreach (var entry in defectFilters) {
                 filterParam += string.Format("{0}[{1}]", entry.Key, entry.Value) + ";";
             }
             filterParam += "}";
-            var resource = string.Format("/qcbin/rest/domains/{0}/projects/{1}/defects&query={2}", project.Domain,
+            var resource = string.Format("/qcbin/rest/domains/{0}/projects/{1}/defects?query={2}", project.Domain,
                 project.Project, filterParam);
 
             var defectsDoc = _connector.Get(resource);
 
-            return defectsDoc.Descendants("Entity").Select(e => new XDocument(e.Document)).ToList(); ;
+            return defectsDoc.Descendants("Entity").Select(e => new XDocument(e)).ToList();
         }
 
         public void OnDefectCreated(string id, ICollection comments, string link) {
             //ConnectToProject();
-            var bug = UpdateDefectStatus(id, qcCreateStatusValue, comments);
-            var attachmentFactory = (AttachmentFactory) bug.Attachments;
-            var attachment = (Attachment) attachmentFactory.AddItem(link);
-            attachment.Post();
+            var bugDoc = UpdateDefectStatus(id, qcCreateStatusValue, comments);
+            //var attachmentFactory = (AttachmentFactory) bug.Attachments;
+            //var attachment = (Attachment) attachmentFactory.AddItem(link);
+            //attachment.Post();
+            
+            //TODO: create attachment
+            //var bugId = bugDoc.Elements().First(e => e.Attribute("Name").Value == "id").Value;
+            //var resource = string.Format("/qcbin/rest/domains/{0}/projects/{1}/defects/{2}/attachments", project.Domain,
+            //    project.Project, bugId);
         }
 
         public bool OnDefectStateChange(string id, ICollection comments) {
@@ -280,9 +283,15 @@ namespace VersionOne.ServiceHost.QualityCenterServices {
             return UpdateDefectStatus(id, qcCloseStatusValue, comments) != null;
         }
 
-        public Bug GetQCDefect(string externalId) {
+        public XDocument GetQCDefect(string externalId) {
+            Login();
             var bugId = GetLocalQCId(externalId);
-            return (Bug) BugFoundry[bugId];
+
+            var resource = string.Format("/qcbin/rest/domains/{0}/projects/{1}/defects/{2}", project.Domain,
+                project.Project, bugId);
+            var defectDoc = _connector.Get(resource);
+
+            return defectDoc;
         }
 
         #region Methods that Only Exist for Testing
@@ -290,19 +299,37 @@ namespace VersionOne.ServiceHost.QualityCenterServices {
         public int GetTestCount() {
             Login();
             //ConnectToProject();
-            return TestFoundry.NewList("").Count;
+            var resource = string.Format("/qcbin/rest/domains/{0}/projects/{1}/tests?page-size=1", project.Domain,
+                project.Project);
+            var testsDoc = _connector.Get(resource);
+            var testCount = testsDoc.Element("TotalResults").Value;
+
+            return int.Parse(testCount);
         }
 
-        public Bug CreateQCDefect() {
+        public XDocument CreateQCDefect()
+        {
+            Login();
             //ConnectToProject();
             string summary = "A Test Defect " + Guid.NewGuid();
-            Bug bug = (Bug) BugFoundry.AddItem(summary);
-            bug.Summary = summary;
-            bug.Status = "New";
-            bug.AssignedTo = "VersionOne";
-            bug["BG_DESCRIPTION"] = "DESCRIPTION";
-            bug.Post();
-            return bug;
+            //Bug bug = (Bug) BugFoundry.AddItem(summary);
+            //bug.Summary = summary;
+            //bug.Status = "New";
+            //bug.AssignedTo = "VersionOne";
+            //bug["BG_DESCRIPTION"] = "DESCRIPTION";
+            //bug.Post();
+            var payload = XDocument.Parse("<Entity Type=\"defect\"></Entity>");
+            var fields = new XElement("Fields");
+            fields.Add(new XElement("Field", new XAttribute("Name", "name"), new XElement("Value", summary)));
+            fields.Add(new XElement("Field", new XAttribute("Name", "status"), new XElement("Value", "New")));
+            fields.Add(new XElement("Field", new XAttribute("Name", "owner"), new XElement("Value", "VersionOne")));
+            fields.Add(new XElement("Field", new XAttribute("Name", "detected-by"), new XElement("Value", "VersionOne")));
+            fields.Add(new XElement("Field", new XAttribute("Name", "description"), new XElement("Value", "DESCRIPTION")));
+
+            var resource = string.Format("/qcbin/rest/domains/{0}/projects/{1}/defects", project.Domain, project.Project);
+            var createdDefectDoc = _connector.Post(resource, payload);
+            
+            return createdDefectDoc;
         }
 
         #endregion
@@ -332,14 +359,26 @@ namespace VersionOne.ServiceHost.QualityCenterServices {
             qcCloseStatusValue = config["CloseStatusValue"].InnerText;
         }
 
-        private Bug UpdateDefectStatus(string externalId, string newStatus, IEnumerable comments) {
-            var bug = GetQCDefect(externalId);
-            bug.Status = newStatus;
-            var existingComments = (string) bug["BG_DEV_COMMENTS"];
-            bug["BG_DEV_COMMENTS"] = existingComments + BuildComments(comments, existingComments);
-            bug.Post();
-            
-            return bug;
+        private XDocument UpdateDefectStatus(string externalId, string newStatus, IEnumerable comments)
+        {
+            Login();
+            var bugDoc = GetQCDefect(externalId);
+            //bugDoc.Descendants("Field").First(f => f.Attribute("Name").Value == "status").Value = newStatus;
+            var id = bugDoc.Descendants("Field").First(f => f.Attribute("Name").Value == "id").Value;
+            var existingComments = bugDoc.Descendants("Field").First(f => f.Attribute("Name").Value == "dev-comments").Value;
+            //bugDoc.Descendants("Field").First(f => f.Attribute("Name").Value == "dev-comments").Value = existingComments + BuildComments(comments, existingComments);
+
+            var payload = XDocument.Parse("<Entity Type=\"defect\"></Entity>");
+            var fields = new XElement("Fields");
+            fields.Add(new XElement("Field", new XAttribute("Name", "status"), new XElement("Value", newStatus)));
+            fields.Add(new XElement("Field", new XAttribute("Name", "dev-comments"),
+                new XElement("Value", existingComments + BuildComments(comments, existingComments))));
+            payload.Elements().First().Add(fields);
+
+            var resource = string.Format("/qcbin/rest/domains/{0}/projects/{1}/defects/{2}", project.Domain, project.Project, id);
+            var updatedBugDoc = _connector.Put(resource, payload);
+
+            return updatedBugDoc;
         }
 
         private static string GetLastCheckFilterString(DateTime lastCheck) {

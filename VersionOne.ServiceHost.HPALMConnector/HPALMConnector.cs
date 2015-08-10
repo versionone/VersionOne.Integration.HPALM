@@ -29,7 +29,7 @@ namespace VersionOne.ServiceHost.HPALMConnector
         {
             get
             {
-                var respMessage = SendGet("/qcbin/rest/is-authenticated");
+                var respMessage = GetData("/qcbin/rest/is-authenticated");
 
                 return respMessage.IsSuccessStatusCode;
             }
@@ -42,28 +42,33 @@ namespace VersionOne.ServiceHost.HPALMConnector
             if (string.IsNullOrWhiteSpace(password))
                 throw new ArgumentNullException("password");
 
-            SendPost("/qcbin/authentication-point/alm-authenticate", CreateAlmAuthenticationPayload(username, password));
+            SendData("/qcbin/authentication-point/alm-authenticate", HttpMethod.Post, CreateAlmAuthenticationPayload(username, password));
         }
 
         public void Logout()
         {
-            SendPost("/qcbin/authentication-point/logout");
+            GetData("/qcbin/authentication-point/logout");
         }
 
         #region HTTP VERBS
 
         public XDocument Get(string resource)
         {
-            return XDocument.Parse(SendGet(resource).Content.ReadAsStringAsync().Result);
+            return XDocument.Parse(GetData(resource).Content.ReadAsStringAsync().Result);
         }
 
-        public XDocument Post(string resource, XDocument data = null)
+        public XDocument Post(string resource, object data = null)
         {
-            return XDocument.Parse(SendPost(resource, data).Content.ReadAsStringAsync().Result);
+            return XDocument.Parse(SendData(resource, HttpMethod.Post, data).Content.ReadAsStringAsync().Result);
+        }
+
+        public XDocument Put(string resource, object data = null)
+        {
+            return XDocument.Parse(SendData(resource, HttpMethod.Put, data).Content.ReadAsStringAsync().Result);
         }
 
 
-        private HttpResponseMessage SendGet(string resource)
+        private HttpResponseMessage GetData(string resource)
         {
             var reqMessage = new HttpRequestMessage(HttpMethod.Get, resource);
             var respMessage = _client.SendAsync(reqMessage).Result;
@@ -71,18 +76,22 @@ namespace VersionOne.ServiceHost.HPALMConnector
             return respMessage;
         }
 
-        private HttpResponseMessage SendPost(string resource, XDocument data = null)
+        private HttpResponseMessage SendData(string resource, HttpMethod httpMethod, object data = null)
         {
-            var reqMessage = new HttpRequestMessage(HttpMethod.Post, resource);
+            var reqMessage = new HttpRequestMessage(httpMethod, resource);
             if (data != null)
             {
-                reqMessage.Content = new StringContent(data.ToString(), Encoding.UTF8, "application/xml");
+                if (data.GetType() == typeof(XDocument))
+                    reqMessage.Content = new StringContent(data.ToString(), Encoding.UTF8, "application/xml");
+                if (data.GetType() == typeof(byte[]))
+                    reqMessage.Content = new ByteArrayContent((byte[]) data);
             }
             
             var respMessage = _client.SendAsync(reqMessage).Result;
 
             return respMessage;
         }
+
         #endregion
 
         private XDocument CreateAlmAuthenticationPayload(string username, string password)

@@ -90,9 +90,9 @@ namespace VersionOne.ServiceHost.QualityCenterServices {
 
                     foreach (var testDoc in testList)
                     {
-                        var id = testDoc.Descendants("Field").First(f => f.Name == "id").Value;
-                        var lastModified = testDoc.Descendants("Field").First(f => f.Name == "last-modified").Value;
-                        var execStatus = testDoc.Descendants("Field").First(f => f.Name == "exec-status").Value;
+                        var id = testDoc.Descendants("Field").First(f => f.Attribute("Name").Value == "id").Value;
+                        var lastModified = testDoc.Descendants("Field").First(f => f.Attribute("Name").Value == "last-modified").Value;
+                        var execStatus = testDoc.Descendants("Field").First(f => f.Attribute("Name").Value == "exec-status").Value;
                         var externalId = project.GetFullyQualifiedQCId(id);
                         result.Add(CreateV1TestRun(externalId, Convert.ToDateTime(lastModified), execStatus));
                     }
@@ -111,10 +111,10 @@ namespace VersionOne.ServiceHost.QualityCenterServices {
 
                     foreach (var bugDoc in bugList)
                     {
-                        var id = bugDoc.Descendants("Field").First(f => f.Name == "id").Value;
-                        var name = bugDoc.Descendants("Field").First(f => f.Name == "name").Value;
-                        var description = bugDoc.Descendants("Field").First(f => f.Name == "description").Value;
-                        var priority = bugDoc.Descendants("Field").First(f => f.Name == "priority").Value;
+                        var id = bugDoc.Descendants("Field").First(f => f.Attribute("Name").Value == "id").Value;
+                        var name = bugDoc.Descendants("Field").First(f => f.Attribute("Name").Value == "name").Value;
+                        var description = bugDoc.Descendants("Field").First(f => f.Attribute("Name").Value == "description").Value;
+                        var priority = bugDoc.Descendants("Field").First(f => f.Attribute("Name").Value == "priority").Value;
 
                         var externalId = project.GetFullyQualifiedQCId(id);
                         var defect = CreateV1Defect(name, externalId, description, priority,
