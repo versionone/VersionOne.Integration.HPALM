@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Net.Http;
-using System.Net.Http.Headers;
 using System.Text;
 using System.Xml.Linq;
 
@@ -8,11 +7,8 @@ namespace VersionOne.ServiceHost.HPALMConnector
 {
     public class HPALMConnector : IDisposable
     {
-        //private readonly string _url;
-        //private readonly string _userName;
-        //private readonly string _password;
         private readonly HttpClient _client;
-        private HttpClientHandler _handler;
+        private readonly HttpClientHandler _handler;
 
         private HPALMConnector() { }
 
@@ -25,6 +21,8 @@ namespace VersionOne.ServiceHost.HPALMConnector
             _client = new HttpClient(_handler) {BaseAddress = new Uri(url)};
         }
 
+        #region AUTHENTICATION
+
         public bool IsAuthenticated
         {
             get
@@ -35,20 +33,24 @@ namespace VersionOne.ServiceHost.HPALMConnector
             }
         }
 
-        public void Authenticate(string username, string password)
+        public bool Authenticate(string username, string password)
         {
             if (string.IsNullOrWhiteSpace(username))
                 throw new ArgumentNullException("username");
             if (string.IsNullOrWhiteSpace(password))
                 throw new ArgumentNullException("password");
 
-            SendData("/qcbin/authentication-point/alm-authenticate", HttpMethod.Post, CreateAlmAuthenticationPayload(username, password));
+            var resp = SendData("/qcbin/authentication-point/alm-authenticate", HttpMethod.Post, CreateAlmAuthenticationPayload(username, password));
+
+            return resp.IsSuccessStatusCode;
         }
 
         public void Logout()
         {
             GetData("/qcbin/authentication-point/logout");
         }
+
+        #endregion
 
         #region HTTP VERBS
 
@@ -67,6 +69,7 @@ namespace VersionOne.ServiceHost.HPALMConnector
             return XDocument.Parse(SendData(resource, HttpMethod.Put, data).Content.ReadAsStringAsync().Result);
         }
 
+        #endregion
 
         private HttpResponseMessage GetData(string resource)
         {
@@ -91,8 +94,6 @@ namespace VersionOne.ServiceHost.HPALMConnector
 
             return respMessage;
         }
-
-        #endregion
 
         private XDocument CreateAlmAuthenticationPayload(string username, string password)
         {

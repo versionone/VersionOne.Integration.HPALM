@@ -41,8 +41,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Entities\HPALMTest.cs" />
-    <Compile Include="Entities\IHPALMEntity.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="HPALMConnector.cs" />
   </ItemGroup>

@@ -1,5 +1,4 @@
 using System;
-using TDAPIOLELib;
 using VersionOne.ServiceHost.ConfigurationTool.Entities;
 
 namespace VersionOne.ServiceHost.ConfigurationTool.DL {
@@ -15,18 +14,19 @@ namespace VersionOne.ServiceHost.ConfigurationTool.DL {
         }
 
         public bool Validate() {
-            TDConnection server = null;
+            HPALMConnector.HPALMConnector connector = null;
 
             try {
-                server = new TDConnection();
-                server.InitConnectionEx(entity.Connection.ApplicationUrl);
-                server.Login(entity.Connection.Username, entity.Connection.Password);
-                return true;
+                connector = new HPALMConnector.HPALMConnector(entity.Connection.ApplicationUrl);
+                var couldAuthenticate = connector.Authenticate(entity.Connection.Username, entity.Connection.Password);
+
+                return couldAuthenticate;
             } catch (Exception) {
                 return false;
             } finally {
-                if (server != null && server.Connected) {
-                    server.Disconnect();
+                if (connector != null) {
+                    connector.Logout();
+                    connector.Dispose();
                 }
             }
         }

@@ -233,20 +233,20 @@ namespace VersionOne.ServiceHost.QualityCenter.Tests
     {
         private int _beforeCreateTestCount;
 
-        public override void Context()
-        {
-            base.Context();
-            _beforeCreateTestCount = CallCenterConnection.GetTestCount();
-            string testTitle = string.Format("Unit Test {0}", DateTime.Now.ToString("yyyyMMdd-HHmmss"));
-            CallCenterConnection.CreateQCTest(testTitle, "This is the test description", "AT-00001");
-        }
+        //public override void Context()
+        //{
+        //    base.Context();
+        //    _beforeCreateTestCount = CallCenterConnection.GetTestCount();
+        //    string testTitle = string.Format("Unit Test {0}", DateTime.Now.ToString("yyyyMMdd-HHmmss"));
+        //    CallCenterConnection.CreateQCTest(testTitle, "This is the test description", "AT-00001");
+        //}
 
-        [TestMethod]
-        public void should_increments_test_count_in_quality_center()
-        {
-            int afterCreateCount = CallCenterConnection.GetTestCount();
-            Assert.AreEqual(_beforeCreateTestCount + 1, afterCreateCount);
-        }
+        //[TestMethod]
+        //public void should_increments_test_count_in_quality_center()
+        //{
+        //    int afterCreateCount = CallCenterConnection.GetTestCount();
+        //    Assert.AreEqual(_beforeCreateTestCount + 1, afterCreateCount);
+        //}
     }
 
     /**

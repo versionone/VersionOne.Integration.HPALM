@@ -344,15 +344,10 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <COMReference Include="TDAPIOLELib">
-      <Guid>{F645BD06-E1B4-4E6A-82FB-E97D027FD456}</Guid>
-      <VersionMajor>1</VersionMajor>
-      <VersionMinor>0</VersionMinor>
-      <Lcid>0</Lcid>
-      <WrapperTool>tlbimp</WrapperTool>
-      <Isolated>False</Isolated>
-      <EmbedInteropTypes>False</EmbedInteropTypes>
-    </COMReference>
+    <ProjectReference Include="..\VersionOne.ServiceHost.HPALMConnector\VersionOne.ServiceHost.HPALMConnector.csproj">
+      <Project>{A3C12E94-8BE4-4D86-84D3-35E378898759}</Project>
+      <Name>VersionOne.ServiceHost.HPALMConnector</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
