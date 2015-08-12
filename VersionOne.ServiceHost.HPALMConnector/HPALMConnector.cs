@@ -42,11 +42,14 @@ namespace VersionOne.ServiceHost.HPALMConnector
 
             var resp = SendData("/qcbin/authentication-point/alm-authenticate", HttpMethod.Post, CreateAlmAuthenticationPayload(username, password));
 
+            SendData("/qcbin/rest/site-session", HttpMethod.Post);
+
             return resp.IsSuccessStatusCode;
         }
 
         public void Logout()
         {
+            SendData("/qcbin/rest/site-session", HttpMethod.Delete);
             GetData("/qcbin/authentication-point/logout");
         }
 
