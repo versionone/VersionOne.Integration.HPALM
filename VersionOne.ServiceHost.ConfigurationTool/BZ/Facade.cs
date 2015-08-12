@@ -3,7 +3,7 @@ using System.Linq;
 using System.Collections.Generic;
 using System.IO;
 using Microsoft.Practices.EnterpriseLibrary.Validation;
-using VersionOne.ServerConnector.Entities;
+using VersionOne.ServiceHost.ServerConnector.Entities;
 using VersionOne.ServiceHost.ConfigurationTool.DL;
 using VersionOne.ServiceHost.ConfigurationTool.Entities;
 using VersionOne.ServiceHost.ConfigurationTool.Validation;

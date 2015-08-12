@@ -1,17 +1,17 @@
-/*(c) Copyright 2008, VersionOne, Inc. All rights reserved. (c)*/
 using System;
 using System.Xml;
-using NUnit.Framework;
 using VersionOne.ServiceHost.Eventing;
 using VersionOne.ServiceHost.Core.Logging;
 using VersionOne.ServiceHost.QualityCenterServices;
 using Rhino.Mocks;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace VersionOne.ServiceHost.QualityCenter.Tests
 {
     #region Abstract Context Base Classes
 
-    [TestFixture]
+    [TestClass]
+    [Ignore]
     public abstract class QualityCenterReaderContext
     {
         protected QualityCenterReaderUpdater qcReaderUpdater;
@@ -20,7 +20,7 @@ namespace VersionOne.ServiceHost.QualityCenter.Tests
 
         protected ILogger loggerStub;
 
-        [TestFixtureSetUp]
+        [ClassInitialize]
         public virtual void Context()
         {
             repo = new MockRepository();
@@ -84,7 +84,7 @@ namespace VersionOne.ServiceHost.QualityCenter.Tests
         }
     }
 
-	public abstract class QualityCenterQueryContext : QualityCenterReaderContext
+    public abstract class QualityCenterQueryContext : QualityCenterReaderContext
     {
         public override void Context()
         {
@@ -99,16 +99,22 @@ namespace VersionOne.ServiceHost.QualityCenter.Tests
 
     #endregion
 
-	public class when_quality_center_reader_updater_is_initialized_but_not_logged_in : QualityCenterReaderContext {
+    [TestClass]
+    [Ignore]
+    public class when_quality_center_reader_updater_is_initialized_but_not_logged_in : QualityCenterReaderContext
+    {
 
-		[Test]
-		public void should_support_qc_call_center_project() {
-			Assert.IsTrue(qcReaderUpdater.HandlesQCProject("Default", "CallCenter"));
-		}
+        [TestMethod]
+        public void should_support_qc_call_center_project()
+        {
+            Assert.IsTrue(qcReaderUpdater.HandlesQCProject("Default", "CallCenter"));
+        }
 
-		[Test]
-		public void should_handle_v1_call_center_project() {
-			Assert.IsTrue(qcReaderUpdater.HandlesV1Project("Call Center"));
-		}
-	}
+        [TestMethod]
+        public void should_handle_v1_call_center_project()
+        {
+            Assert.IsTrue(qcReaderUpdater.HandlesV1Project("Call Center"));
+        }
+    }
+
 }

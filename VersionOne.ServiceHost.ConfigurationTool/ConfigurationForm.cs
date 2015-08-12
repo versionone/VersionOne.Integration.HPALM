@@ -1,10 +1,13 @@
 using System;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
 using VersionOne.ServiceHost.ConfigurationTool.BZ;
+using VersionOne.ServiceHost.ConfigurationTool.Entities;
+using VersionOne.ServiceHost.ConfigurationTool.UI.Controls;
 using VersionOne.ServiceHost.ConfigurationTool.UI.Interfaces;
 
 namespace VersionOne.ServiceHost.ConfigurationTool {
@@ -98,6 +101,58 @@ namespace VersionOne.ServiceHost.ConfigurationTool {
 
         private void tvServices_AfterSelect(object sender, TreeViewEventArgs e) {
             controller.ShowPage(e.Node.Text);
+
+            if (controller.View.CurrentControl is V1SettingsPageControl)
+            {
+                controller.Settings.Settings.PropertyChanged += OnPropertyChanged;
+                controller.Settings.Settings.ProxySettings.PropertyChanged += OnPropertyChanged;
+            }
+            else if (controller.View.CurrentControl is WorkitemsPageControl)
+            {
+                var workitemWriter = controller.Settings.Services.OfType<WorkitemWriterEntity>().SingleOrDefault();
+                if (workitemWriter != null)
+                    workitemWriter.PropertyChanged += OnPropertyChanged;
+            }
+            else if (controller.View.CurrentControl is QCPageControl)
+            {
+                var qcService = controller.Settings.Services.OfType<QCServiceEntity>().SingleOrDefault();
+                if (qcService != null)
+                {
+                    qcService.PropertyChanged += OnPropertyChanged;
+                    qcService.Timer.PropertyChanged += OnPropertyChanged;
+                    qcService.Connection.PropertyChanged += OnPropertyChanged;
+                    qcService.Timer.PropertyChanged += OnPropertyChanged;
+                    qcService.Projects.CollectionChanged += OnCollectionChanged;
+                    qcService.Projects.ToList().ForEach(p =>
+                    {
+                        p.PropertyChanged += OnPropertyChanged;
+                    });
+                    qcService.DefectFilters.CollectionChanged += OnCollectionChanged;
+                    qcService.DefectFilters.ToList().ForEach(df =>
+                    {
+                        df.PropertyChanged += OnPropertyChanged;
+                    });
+                    qcService.PriorityMappings.CollectionChanged += OnCollectionChanged;
+                    qcService.PriorityMappings.ToList().ForEach(pm =>
+                    {
+                        pm.PropertyChanged += OnPropertyChanged;
+                    });
+                }
+            }
+            else if (controller.View.CurrentControl is TestServicePageControl)
+            {
+                var tService = controller.Settings.Services.OfType<TestServiceEntity>().SingleOrDefault();
+                if (tService != null)
+                {
+                    tService.PropertyChanged += OnPropertyChanged;
+                    tService.Timer.PropertyChanged += OnPropertyChanged;
+                    tService.Projects.CollectionChanged += OnCollectionChanged;
+                    tService.Projects.ToList().ForEach(p =>
+                    {
+                        p.PropertyChanged += OnPropertyChanged;
+                    });
+                }
+            }
         }
 
         private void tsbSave_Click(object sender, EventArgs e) {
@@ -162,6 +217,17 @@ namespace VersionOne.ServiceHost.ConfigurationTool {
             var description = string.Format("VersionOne ServiceHost configuration utility, version {0}. (c) {1}", controller.ApplicationVersion, Application.CompanyName);
             MessageBox.Show(description);
         }
+
+        private void OnPropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            controller.Settings.HasChanged = true;
+        }
+
+        private void OnCollectionChanged(object o, NotifyCollectionChangedEventArgs args)
+        {
+            controller.Settings.HasChanged = true;
+        }
+
         #endregion
 
         #region IConfigurationView Members

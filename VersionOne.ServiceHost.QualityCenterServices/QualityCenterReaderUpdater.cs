@@ -88,14 +88,13 @@ namespace VersionOne.ServiceHost.QualityCenterServices {
                 foreach (var project in projects.Values) {
                     var testList = project.GetLatestTestRuns(lastCheck);
 
-                    foreach (var test in testList) {
-                        // ignore the test that have not been executed
-                        if (!QC.HasLastRun(test)) {
-                            continue;
-                        }
-
-                        var externalId = project.GetFullyQualifiedQCId(QC.TestID(test));
-                        result.Add(CreateV1TestRun(externalId, QC.TimeStamp(test), QC.LastRunStatus(test)));
+                    foreach (var testDoc in testList)
+                    {
+                        var id = testDoc.Descendants("Field").First(f => f.Attribute("Name").Value == "id").Value;
+                        var lastModified = testDoc.Descendants("Field").First(f => f.Attribute("Name").Value == "last-modified").Value;
+                        var execStatus = testDoc.Descendants("Field").First(f => f.Attribute("Name").Value == "exec-status").Value;
+                        var externalId = project.GetFullyQualifiedQCId(id);
+                        result.Add(CreateV1TestRun(externalId, Convert.ToDateTime(lastModified), execStatus));
                     }
                 }
             }
@@ -109,12 +108,17 @@ namespace VersionOne.ServiceHost.QualityCenterServices {
             lock (this) {
                 foreach (var project in projects.Values) {
                     var bugList = project.GetLatestDefects(lastCheck);
-                    
-                    foreach (var bug in bugList) {
-                        var externalId = project.GetFullyQualifiedQCId(QC.DefectID(bug));
-                        // TODO map priorities
-                        var defect = CreateV1Defect(QC.DefectSummary(bug), externalId, QC.DefectDescription(bug),
-                                                       QC.DefectPriority(bug), project.ProjectInfo.V1Project);
+
+                    foreach (var bugDoc in bugList)
+                    {
+                        var id = bugDoc.Descendants("Field").First(f => f.Attribute("Name").Value == "id").Value;
+                        var name = bugDoc.Descendants("Field").First(f => f.Attribute("Name").Value == "name").Value;
+                        var description = bugDoc.Descendants("Field").First(f => f.Attribute("Name").Value == "description").Value;
+                        var priority = bugDoc.Descendants("Field").First(f => f.Attribute("Name").Value == "priority").Value;
+
+                        var externalId = project.GetFullyQualifiedQCId(id);
+                        var defect = CreateV1Defect(name, externalId, description, priority,
+                            project.ProjectInfo.V1Project);
                         defects.Add(defect);
                     }
                 }

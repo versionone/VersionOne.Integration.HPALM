@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Xml.Serialization;
 using Microsoft.Practices.EnterpriseLibrary.Validation;
 using Microsoft.Practices.EnterpriseLibrary.Validation.Validators;
@@ -25,46 +26,120 @@ namespace VersionOne.ServiceHost.ConfigurationTool.Entities {
 
         #endregion
 
+        private ObservableCollection<QCProject> _projects;
+        private ObservableCollection<QCDefectFilter> _defectFilters;
+        private string _createStatus;
+        private string _closeStatus;
+        private string _sourceField;
+        private ObservableCollection<QCPriorityMapping> _priorityMappings;
+
         public QCConnection Connection {
             get { return connection; }
-            set { connection = value; }
+            set
+            {
+                if (!value.Equals(connection))
+                {
+                    connection = value;
+                    NotifyPropertyChanged();
+                }
+            }
+
         }
 
         [XmlArray("QCProjects")]
         [XmlArrayItem("Project")]
         [HelpString(HelpResourceKey = "QcProjectMappings")]
-        public List<QCProject> Projects { get; set; }
+        public ObservableCollection<QCProject> Projects
+        {
+            get { return _projects; }
+            set
+            {
+                if (_projects != value)
+                {
+                    _projects = value;
+                    NotifyPropertyChanged();
+                }
+            }
+        }
 
         [XmlArray("DefectFilters")]
         [XmlArrayItem("DefectFilter")]
         [HelpString(HelpResourceKey = "QcDefectFilters")]
-        public List<QCDefectFilter> DefectFilters { get; set; }
+        public ObservableCollection<QCDefectFilter> DefectFilters {
+            get { return _defectFilters; }
+            set
+            {
+                if (_defectFilters != value)
+                {
+                    _defectFilters = value;
+                    NotifyPropertyChanged();
+                }
+            } }
 
         [NonEmptyStringValidator]
         [XmlElement("CreateStatusValue")]
         [HelpString(HelpResourceKey = "QcCreateStatusValue")]
-        public string CreateStatus { get; set; }
+        public string CreateStatus {
+            get { return _createStatus; }
+            set
+            {
+                if (!value.Equals(_createStatus))
+                {
+                    _createStatus = value;
+                    NotifyPropertyChanged();
+                }
+            } }
 
         [NonEmptyStringValidator]
         [XmlElement("CloseStatusValue")]
         [HelpString(HelpResourceKey = "QcCloseStatusValue")]
-        public string CloseStatus { get; set; }
+        public string CloseStatus {
+            get { return _closeStatus; }
+            set
+            {
+                if (!value.Equals(_closeStatus))
+                {
+                    _closeStatus = value;
+                    NotifyPropertyChanged();
+                }
+            } }
 
         [NonEmptyStringValidator]
         [XmlElement("SourceFieldValue")]
         [HelpString(HelpResourceKey = "QcSourceFieldValue")]
-        public string SourceField { get; set; }
+        public string SourceField {
+            get
+            {
+                return _sourceField;
+            }
+            set
+            {
+                if (!value.Equals(_sourceField))
+                {
+                    _sourceField = value;
+                    NotifyPropertyChanged();
+                }
+            } }
 
         [XmlArray("PriorityMappings")]
         [XmlArrayItem("Mapping")]
         [HelpString(HelpResourceKey = "QcPriorityMappings")]
-        public List<QCPriorityMapping> PriorityMappings { get; set; }
+        public ObservableCollection<QCPriorityMapping> PriorityMappings {
+            get { return _priorityMappings; }
+            set
+            {
+                if (_priorityMappings != value)
+                {
+                    _priorityMappings = value;
+                    NotifyPropertyChanged();
+                }
+            } }
 
         public QCServiceEntity() {
             connection = new QCConnection();
-            DefectFilters = new List<QCDefectFilter>();
-            Projects = new List<QCProject>();
-            PriorityMappings = new List<QCPriorityMapping>();
+            DefectFilters = new ObservableCollection<QCDefectFilter>();
+            Projects = new ObservableCollection<QCProject>();
+            PriorityMappings = new ObservableCollection<QCPriorityMapping>();
             CreateTimer(TimerEntity.DefaultTimerIntervalMinutes);
         }
 

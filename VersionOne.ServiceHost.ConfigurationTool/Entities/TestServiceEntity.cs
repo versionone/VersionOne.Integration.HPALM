@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Xml.Serialization;
 using Microsoft.Practices.EnterpriseLibrary.Validation;
 using Microsoft.Practices.EnterpriseLibrary.Validation.Validators;
@@ -13,17 +14,38 @@ namespace VersionOne.ServiceHost.ConfigurationTool.Entities {
         public const string BaseQueryFilterProperty = "BaseQueryFilter";
         public const string ProjectsProperty = "Projects";
 
+        private string _baseQueryFilter;
+        private ObservableCollection<TestPublishProjectMapping> _projects;
+            
         [NonEmptyStringValidator]
         [HelpString(HelpResourceKey = "TestServicesBaseQueryFilter")]
-        public string BaseQueryFilter { get; set; }
+        public string BaseQueryFilter {
+            get { return _baseQueryFilter; }
+            set
+            {
+                if (!value.Equals(_baseQueryFilter))
+                {
+                    _baseQueryFilter = value;
+                    NotifyPropertyChanged();
+                }
+            } }
 
         [XmlArray("TestPublishProjectMap")]
         [XmlArrayItem("V1Project")]
         [HelpString(HelpResourceKey = "TestServicesV1Project")]
-        public List<TestPublishProjectMapping> Projects { get; set; }
+        public ObservableCollection<TestPublishProjectMapping> Projects {
+            get { return _projects; }
+            set
+            {
+                if (value != _projects)
+                {
+                    _projects = value;
+                    NotifyPropertyChanged();
+                }
+            } }
 
         public TestServiceEntity() {
-            Projects = new List<TestPublishProjectMapping>();
+            Projects = new ObservableCollection<TestPublishProjectMapping>();
             CreateTimer(TimerEntity.DefaultTimerIntervalMinutes);
         }
 

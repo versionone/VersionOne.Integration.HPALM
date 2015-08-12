@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Linq;
 using System.Windows.Forms;
 
 using VersionOne.ServiceHost.ConfigurationTool.BZ;
@@ -154,7 +155,7 @@ namespace VersionOne.ServiceHost.ConfigurationTool.UI.Controls {
             var idValue = currentRow.Cells[0].EditedFormattedValue as string;
             var project = (QCProject)currentRow.DataBoundItem;
 
-            var duplicateIdItemsList = Model.Projects.FindAll(
+            var duplicateIdItemsList = Model.Projects.ToList().FindAll(
                 item => string.Equals(idValue, item.Id) && !item.Equals(project));
 
             if(duplicateIdItemsList.Count > 0) {

@@ -97,7 +97,9 @@ namespace VersionOne.ServiceHost.ConfigurationTool {
 
             var result = facadeImpl.SaveConfigurationToFile(Settings, fileName);
 
-            if(result.IsValid) {
+            if(result.IsValid)
+            {
+                settings.HasChanged = false;
                 return;
             }
 
