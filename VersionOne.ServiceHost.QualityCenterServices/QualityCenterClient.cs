@@ -92,7 +92,7 @@ namespace VersionOne.ServiceHost.QualityCenterServices {
 
             var latestTestsDoc = _connector.Get(resource);
 
-            return latestTestsDoc.Descendants("Entity").Select(e => new XDocument(e.Document)).ToList();
+            return latestTestsDoc.Descendants("Entity").Select(e => new XDocument(e)).ToList();
         }
 
         public IList<XDocument> GetLatestDefects(DateTime lastCheck) {
