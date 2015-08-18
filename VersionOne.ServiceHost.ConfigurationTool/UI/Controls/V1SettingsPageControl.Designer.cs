@@ -63,7 +63,7 @@ namespace VersionOne.ServiceHost.ConfigurationTool.UI.Controls {
             // 
             // btnVerifyV1Connection
             // 
-            this.btnVerifyV1Connection.Location = new System.Drawing.Point(422, 445);
+            this.btnVerifyV1Connection.Location = new System.Drawing.Point(394, 438);
             this.btnVerifyV1Connection.Name = "btnVerifyV1Connection";
             this.btnVerifyV1Connection.Size = new System.Drawing.Size(87, 27);
             this.btnVerifyV1Connection.TabIndex = 17;
@@ -199,9 +199,9 @@ namespace VersionOne.ServiceHost.ConfigurationTool.UI.Controls {
             this.groupBox1.Controls.Add(this.rbtnIntegratedAuth);
             this.groupBox1.Controls.Add(this.rbtnBasicAuth);
             this.groupBox1.Controls.Add(this.rbtnAccessTokenAuth);
-            this.groupBox1.Location = new System.Drawing.Point(43, 18);
+            this.groupBox1.Location = new System.Drawing.Point(20, 18);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(466, 54);
+            this.groupBox1.Size = new System.Drawing.Size(461, 54);
             this.groupBox1.TabIndex = 18;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Authentication";
@@ -291,7 +291,7 @@ namespace VersionOne.ServiceHost.ConfigurationTool.UI.Controls {
             this.Controls.Add(this.txtServerUrl);
             this.Controls.Add(this.lblServerUrl);
             this.Name = "V1SettingsPageControl";
-            this.Size = new System.Drawing.Size(540, 490);
+            this.Size = new System.Drawing.Size(500, 490);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             this.ResumeLayout(false);

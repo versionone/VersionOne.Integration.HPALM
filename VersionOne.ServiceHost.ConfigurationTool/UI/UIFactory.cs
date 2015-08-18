@@ -39,7 +39,7 @@ namespace VersionOne.ServiceHost.ConfigurationTool.UI {
                     ServicesGroup.Core)
                 );
             mappings.Add(
-                "Quality Center",
+                "HP-ALM",
                 new StateDefinition(typeof(QCController),
                     typeof(QCPageControl),
                     typeof(QCServiceEntity),
