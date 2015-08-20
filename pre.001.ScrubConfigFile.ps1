@@ -12,7 +12,7 @@ function Clean-ConfigFile {
     $xml.configuration.Services.LogService.File.LogLevel = "Info"
 
     # ProfileFlushTimer settings    
-    $xml.configuration.Services.ProfileFlushTimer.Interval = "5000"
+    $xml.configuration.Services.ProfileFlushTimer.Interval = "10000"
 
     # QualityCenterService settings
     $xml.configuration.Services.QualityCenterService.Connection.ApplicationUrl = "http://hostname:port/qcbin"
@@ -56,10 +56,10 @@ function Clean-ConfigFile {
     $xml.configuration.Services.WorkitemWriterService.Settings.Password = ""
 
     # V1TestReadTimer settings
-    $xml.configuration.Services.V1TestReadTimer.Interval = "5000"
+    $xml.configuration.Services.V1TestReadTimer.Interval = "300000"
 
     # QCTestReadTimer settings    
-    $xml.configuration.Services.QCTestReadTimer.Interval = "5000"
+    $xml.configuration.Services.QCTestReadTimer.Interval = "300000"
 
 	$xml.Save($path);
 }
