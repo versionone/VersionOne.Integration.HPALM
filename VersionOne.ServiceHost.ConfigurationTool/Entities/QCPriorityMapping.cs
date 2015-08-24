@@ -40,7 +40,9 @@ namespace VersionOne.ServiceHost.ConfigurationTool.Entities {
         [NonEmptyStringValidator]
         public string QCPriorityName {
             get { return qualityCenterPriority.Name; }
-            set { if (!qualityCenterPriority.Name.Equals(value))
+            set
+            {
+                if (!value.Equals(qualityCenterPriority.Name))
             {
                 qualityCenterPriority.Name = value;
                 OnPropertyChanged();
