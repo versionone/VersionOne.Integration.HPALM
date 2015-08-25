@@ -111,16 +111,7 @@ namespace VersionOne.ServiceHost.QualityCenterServices {
         }
 
         public void OnDefectCreated(string id, ICollection comments, string link) {
-            //ConnectToProject();
-            var bugDoc = UpdateDefectStatus(id, qcCreateStatusValue, comments);
-            //var attachmentFactory = (AttachmentFactory) bug.Attachments;
-            //var attachment = (Attachment) attachmentFactory.AddItem(link);
-            //attachment.Post();
-            
-            //TODO: create attachment
-            //var bugId = bugDoc.Elements().First(e => e.Attribute("Name").Value == "id").Value;
-            //var resource = string.Format("/qcbin/rest/domains/{0}/projects/{1}/defects/{2}/attachments", project.Domain,
-            //    project.Project, bugId);
+            UpdateDefectStatus(id, qcCreateStatusValue, comments);
         }
 
         public bool OnDefectStateChange(string id, ICollection comments) {
@@ -138,46 +129,6 @@ namespace VersionOne.ServiceHost.QualityCenterServices {
 
             return defectDoc;
         }
-
-        //#region Methods that Only Exist for Testing
-
-        //public int GetTestCount() {
-        //    Login();
-        //    //ConnectToProject();
-        //    var resource = string.Format("/qcbin/rest/domains/{0}/projects/{1}/tests?page-size=1", project.Domain,
-        //        project.Project);
-        //    var testsDoc = _connector.Get(resource);
-        //    var testCount = testsDoc.Element("TotalResults").Value;
-
-        //    return int.Parse(testCount);
-        //}
-
-        //public XDocument CreateQCDefect()
-        //{
-        //    Login();
-        //    //ConnectToProject();
-        //    string summary = "A Test Defect " + Guid.NewGuid();
-        //    //Bug bug = (Bug) BugFoundry.AddItem(summary);
-        //    //bug.Summary = summary;
-        //    //bug.Status = "New";
-        //    //bug.AssignedTo = "VersionOne";
-        //    //bug["BG_DESCRIPTION"] = "DESCRIPTION";
-        //    //bug.Post();
-        //    var payload = XDocument.Parse("<Entity Type=\"defect\"></Entity>");
-        //    var fields = new XElement("Fields");
-        //    fields.Add(new XElement("Field", new XAttribute("Name", "name"), new XElement("Value", summary)));
-        //    fields.Add(new XElement("Field", new XAttribute("Name", "status"), new XElement("Value", "New")));
-        //    fields.Add(new XElement("Field", new XAttribute("Name", "owner"), new XElement("Value", "VersionOne")));
-        //    fields.Add(new XElement("Field", new XAttribute("Name", "detected-by"), new XElement("Value", "VersionOne")));
-        //    fields.Add(new XElement("Field", new XAttribute("Name", "description"), new XElement("Value", "DESCRIPTION")));
-
-        //    var resource = string.Format("/qcbin/rest/domains/{0}/projects/{1}/defects", project.Domain, project.Project);
-        //    var createdDefectDoc = _connector.Post(resource, payload);
-            
-        //    return createdDefectDoc;
-        //}
-
-        //#endregion
 
         public string GetFullyQualifiedQCId(string localId) {
             return string.Format("{0}.{1}.{2}", project.Domain, project.Project, localId);
