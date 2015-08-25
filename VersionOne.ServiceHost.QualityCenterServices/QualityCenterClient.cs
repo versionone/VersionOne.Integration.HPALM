@@ -19,6 +19,7 @@ namespace VersionOne.ServiceHost.QualityCenterServices {
         private string url;
         private string userName;
         private string password;
+        private string _testFolderId;
         private readonly QCProject project;
         private HPALMConnector.HPALMConnector _connector;
         private readonly IDictionary<string, string> defectFilters = new Dictionary<string, string>();
@@ -58,11 +59,8 @@ namespace VersionOne.ServiceHost.QualityCenterServices {
 
         public string CreateQCTest(string title, string description, string externalId) {
             Login();
-            var resource = string.Format("qcbin/rest/domains/{0}/projects/{1}/test-folders?query={{name[{2}]}}",
-                project.Domain, project.Project, project.TestFolder);
-            var folderDoc = _connector.Get(resource);
 
-            var folderId = folderDoc.Descendants("Field").First(f => f.Attribute("Name").Value == "id").Value;
+            var folderId = GetTestFolderId();
             var testDesc = string.Format("<html><body>{0}</body></html>", description);
             
             var payload = XDocument.Parse("<Entity Type=\"test\"></Entity>");
@@ -76,7 +74,7 @@ namespace VersionOne.ServiceHost.QualityCenterServices {
             fields.Add(new XElement("Field", new XAttribute("Name", project.V1IdField), new XElement("Value", externalId)));
             payload.Elements().First().Add(fields);
 
-            resource = string.Format("/qcbin/rest/domains/{0}/projects/{1}/tests", project.Domain, project.Project);
+            var resource = string.Format("/qcbin/rest/domains/{0}/projects/{1}/tests", project.Domain, project.Project);
             var createdTestDoc = _connector.Post(resource, payload);
 
             return
@@ -175,11 +173,11 @@ namespace VersionOne.ServiceHost.QualityCenterServices {
             return updatedBugDoc;
         }
 
-        private static string GetLastCheckFilterString(DateTime lastCheck) {
+        private string GetLastCheckFilterString(DateTime lastCheck) {
             return ">=\"" + lastCheck.ToString("yyyy-MM-dd HH:mm:00") + "\"";
         }
 
-        private static string BuildComments(IEnumerable messages, string existingComments) {
+        private string BuildComments(IEnumerable messages, string existingComments) {
             var stringBuilder = new StringBuilder();
             stringBuilder.AppendLine();
             stringBuilder.Append("<html><body>");
@@ -197,6 +195,59 @@ namespace VersionOne.ServiceHost.QualityCenterServices {
             
             stringBuilder.AppendLine("</body></html>");
             return stringBuilder.ToString();
+        }
+
+        private string GetTestFolderId()
+        {
+            
+            return _testFolderId ?? (_testFolderId = GetTestFolderId(project.TestFolder) ?? CreateTestFolder());
+        }
+
+        private string CreateTestFolder()
+        {
+            try
+            {
+                Login();
+                var rootFolderId = GetTestFolderId("Subject");
+                if (rootFolderId == null)
+                    throw new Exception("HP-ALM does not contain a root folder called \"Subject\"");
+
+                var payload = XDocument.Parse("<Entity Type=\"test-folder\"></Entity>");
+                var fields = new XElement("Fields");
+                fields.Add(new XElement("Field", new XAttribute("Name", "name"),
+                    new XElement("Value", project.TestFolder)));
+                fields.Add(new XElement("Field", new XAttribute("Name", "parent-id"),
+                    new XElement("Value", rootFolderId)));
+                payload.Elements().First().Add(fields);
+
+                var resource = string.Format("qcbin/rest/domains/{0}/projects/{1}/test-folders", project.Domain,
+                    project.Project);
+                var folderDoc = _connector.Post(resource, payload);
+                
+                return folderDoc.Descendants("Field").First(f => f.Attribute("Name").Value == "id").Value;
+            }
+            catch (Exception e)
+            {
+                throw new Exception(string.Format("An error has occurred while creating Test Folder: {0}", project.TestFolder), e);
+            }
+        }
+
+        private string GetTestFolderId(string testFolderName)
+        {
+            string result = null;
+            var resource = string.Format("qcbin/rest/domains/{0}/projects/{1}/test-folders?query={{name[{2}]}}",
+                    project.Domain, project.Project, testFolderName);
+            var folderDoc = _connector.Get(resource);
+
+            var totalResults =
+                Convert.ToInt16(
+                    folderDoc.Descendants("Entities").First().Attribute("TotalResults").Value);
+            if (totalResults != 0)
+            {
+                result = folderDoc.Descendants("Field").First(f => f.Attribute("Name").Value == "id").Value;
+            }
+
+            return result;
         }
 
         #endregion
