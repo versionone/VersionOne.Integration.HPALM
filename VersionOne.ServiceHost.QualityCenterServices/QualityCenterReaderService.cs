@@ -50,13 +50,13 @@ namespace VersionOne.ServiceHost.QualityCenterServices {
             try {
                 defects = server.GetLatestDefects(lastScanTimestamp);
             } catch(Exception ex) {
-                logger.Log(LogMessage.SeverityType.Error, "Error getting Issues from Quality Center:");
+                logger.Log(LogMessage.SeverityType.Error, "Error getting Issues from HP-ALM:");
                 logger.Log(LogMessage.SeverityType.Error, ex.ToString());
                 return;
             }
 
             //TODO now there is a quantity of issues twice more
-            logger.Log(string.Format("Found {0} issues in Quality Center to create in VersionOne.", defects.Count));
+            logger.Log(string.Format("Found {0} issues in HP-ALM to create in VersionOne.", defects.Count));
 
             foreach(var defect in defects) {
                 eventManager.Publish(defect);

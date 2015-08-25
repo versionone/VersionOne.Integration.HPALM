@@ -74,7 +74,7 @@ namespace VersionOne.ServiceHost.QualityCenterServices {
                 } catch (Exception ex) {
                     logger.Log(LogMessage.SeverityType.Error, ex.ToString());
                     qcEvent.Successful = false;
-                    qcEvent.Reference = "Quality Center Test Creation Failed.  See integration log for details.";
+                    qcEvent.Reference = "HP-ALM Test Creation Failed.  See integration log for details.";
                 }
             }
 

@@ -264,7 +264,7 @@ namespace VersionOne.ServiceHost.ConfigurationTool.UI.Controls {
             // 
             this.colProjectId.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
             this.colProjectId.DataPropertyName = "DestinationProject";
-            this.colProjectId.HeaderText = "QualityCenter Project";
+            this.colProjectId.HeaderText = "HP-ALM Project";
             this.colProjectId.MinimumWidth = 100;
             this.colProjectId.Name = "colProjectId";
             // 

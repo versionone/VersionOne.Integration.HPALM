@@ -323,23 +323,23 @@ Don't forget about port (default is 1666).</value>
     <value>Depot folder for tracking changes. For entire repository use //Depot/...</value>
   </data>
   <data name="QcCloseStatusValue" xml:space="preserve">
-    <value>Specify the Quality Center Defect status value to set after the VersionOne Defect is closed.</value>
+    <value>Specify the HP-ALM Defect status value to set after the VersionOne Defect is closed.</value>
   </data>
   <data name="QcCreateStatusValue" xml:space="preserve">
-    <value>Specify the Quality Center Defect status value to set after a Defect is created in VersionOne.</value>
+    <value>Specify the HP-ALM Defect status value to set after a Defect is created in VersionOne.</value>
   </data>
   <data name="QcDefectFilters" xml:space="preserve">
-    <value>Search criteria to find Quality Center defects to be moved into VersionOne.</value>
+    <value>Search criteria to find HP-ALM defects to be moved into VersionOne.</value>
   </data>
   <data name="QcPriorityMappings" xml:space="preserve">
-    <value>Mapping for priorities from Quality Center to VersionOne.
-If a mapping of Quality Center to VersionOne priority is omitted here, created VersionOne defects do not have any priority set.</value>
+    <value>Mapping for priorities from HP-ALM to VersionOne.
+If a mapping of HP-ALM to VersionOne priority is omitted here, created VersionOne defects do not have any priority set.</value>
   </data>
   <data name="QcProjectMappings" xml:space="preserve">
-    <value>Mapping for projects from Quality Center to VersionOne.</value>
+    <value>Mapping for projects from HP-ALM to VersionOne.</value>
   </data>
   <data name="QcSourceFieldValue" xml:space="preserve">
-    <value>Select the VersionOne Source to use for Quality Center.</value>
+    <value>Select the VersionOne Source to use for HP-ALM.</value>
   </data>
   <data name="QtpSuiteName" xml:space="preserve">
     <value>The VersionOne test suite name.</value>
@@ -372,7 +372,7 @@ If a mapping of Quality Center to VersionOne priority is omitted here, created V
     <value>Base filter used when selecting tests to push to partner system. This filter must include the attribute defined in TestReferenceAttribute.</value>
   </data>
   <data name="TestServicesV1Project" xml:space="preserve">
-    <value>This table describes the attributes on each VersionOne Project element. These elements are child elements to TestPublishProjectMap and describe the VersionOne project to poll when looking for Test that need to be created in Quality Center.</value>
+    <value>This table describes the attributes on each VersionOne Project element. These elements are child elements to TestPublishProjectMap and describe the VersionOne project to poll when looking for Test that need to be created in HP-ALM.</value>
   </data>
   <data name="TestsFailedStatus" xml:space="preserve">
     <value>Value to set when a test fails.</value>

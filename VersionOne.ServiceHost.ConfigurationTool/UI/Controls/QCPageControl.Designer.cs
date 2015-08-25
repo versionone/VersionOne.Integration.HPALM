@@ -452,7 +452,7 @@ namespace VersionOne.ServiceHost.ConfigurationTool.UI.Controls {
             // 
             this.colQCPriorityName.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
             this.colQCPriorityName.DataPropertyName = "QCPriorityName";
-            this.colQCPriorityName.HeaderText = "Quality Center Priority";
+            this.colQCPriorityName.HeaderText = "HP-ALM Priority";
             this.colQCPriorityName.MinimumWidth = 100;
             this.colQCPriorityName.Name = "colQCPriorityName";
             // 
@@ -474,7 +474,7 @@ namespace VersionOne.ServiceHost.ConfigurationTool.UI.Controls {
             // colQCProject
             // 
             this.colQCProject.DataPropertyName = "Project";
-            this.colQCProject.HeaderText = "QualityCenter Project";
+            this.colQCProject.HeaderText = "HP-ALM Project";
             this.colQCProject.MinimumWidth = 100;
             this.colQCProject.Name = "colQCProject";
             this.colQCProject.Width = 200;

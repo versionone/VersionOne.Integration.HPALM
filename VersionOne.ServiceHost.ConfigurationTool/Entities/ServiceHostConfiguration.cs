@@ -65,8 +65,8 @@ namespace VersionOne.ServiceHost.ConfigurationTool.Entities {
                     var matchingProject = qcServiceEntity.Projects.ToList().Find(item => string.Equals(item.Id, mapping.DestinationProject));
 
                     if(matchingProject == null) {
-                        var message = string.Format("Mapping '{0}' exists on Test Service page, but not on Quality Center page", mapping.DestinationProject);
-                        results.AddResult(new ValidationResult(message, this, null, "Quality Center", null));
+                        var message = string.Format("Mapping '{0}' exists on Test Service page, but not on HP-ALM page", mapping.DestinationProject);
+                        results.AddResult(new ValidationResult(message, this, null, "HP-ALM", null));
                     }
                 }
             }
