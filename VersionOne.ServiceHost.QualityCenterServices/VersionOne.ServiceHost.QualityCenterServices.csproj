@@ -106,10 +106,6 @@
     <Reference Include="VersionOne.ServiceHost.ServerConnector">
       <HintPath>..\packages\VersionOne.ServiceHost.ServerConnector.2.0.0.0\lib\net451\VersionOne.ServiceHost.ServerConnector.dll</HintPath>
     </Reference>
-    <Reference Include="VersionOne.ServiceHost.TestServices, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\VersionOne.ServiceHost.TestServices.2.0.0.0\lib\net451\VersionOne.ServiceHost.TestServices.dll</HintPath>
-    </Reference>
     <Reference Include="VersionOne.ServiceHost.WorkitemServices, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\VersionOne.ServiceHost.WorkitemServices.2.0.0.0\lib\net451\VersionOne.ServiceHost.WorkitemServices.dll</HintPath>
@@ -154,6 +150,10 @@
     <ProjectReference Include="..\VersionOne.ServiceHost.HPALMConnector\VersionOne.ServiceHost.HPALMConnector.csproj">
       <Project>{A3C12E94-8BE4-4D86-84D3-35E378898759}</Project>
       <Name>VersionOne.ServiceHost.HPALMConnector</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\VersionOne.ServiceHost.TestServices\VersionOne.ServiceHost.TestServices.csproj">
+      <Project>{20254fe6-fcaf-4d00-9a24-00e763d31357}</Project>
+      <Name>VersionOne.ServiceHost.TestServices</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />

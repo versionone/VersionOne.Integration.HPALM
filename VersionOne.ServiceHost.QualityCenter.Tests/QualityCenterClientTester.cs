@@ -1,371 +1,369 @@
-using System;
-using System.Collections.Generic;
-using System.Xml;
-using Rhino.Mocks;
-using TDAPIOLELib;
-using VersionOne.ServiceHost.Eventing;
-using VersionOne.ServiceHost.QualityCenterServices;
-using IList = System.Collections.IList;
-using VersionOne.ServiceHost.Core.Logging;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+//using System;
+//using System.Collections.Generic;
+//using System.Xml;
+//using Rhino.Mocks;
+//using VersionOne.ServiceHost.Eventing;
+//using VersionOne.ServiceHost.QualityCenterServices;
+//using IList = System.Collections.IList;
+//using VersionOne.ServiceHost.Core.Logging;
+//using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace VersionOne.ServiceHost.QualityCenter.Tests
-{
-    [TestClass]
-    public abstract class QualityCenterClientContext
-    {
-        private readonly IDictionary<string, QualityCenterClient> _projects = new Dictionary<string, QualityCenterClient>();
-        protected MockRepository repo;
-        protected IEventManager mockEventManager;
+//namespace VersionOne.ServiceHost.QualityCenter.Tests
+//{
+//    [TestClass]
+//    public abstract class QualityCenterClientContext
+//    {
+//        private readonly IDictionary<string, QualityCenterClient> _projects = new Dictionary<string, QualityCenterClient>();
+//        protected MockRepository repo;
+//        protected IEventManager mockEventManager;
 
-        private ILogger logger;
+//        private ILogger logger;
 
-        [ClassInitialize]
-        public virtual void Context()
-        {
-            repo = new MockRepository();
-            logger = repo.Stub<ILogger>();
-            CreateMockEventManager();
+//        [ClassInitialize]
+//        public virtual void Context()
+//        {
+//            repo = new MockRepository();
+//            logger = repo.Stub<ILogger>();
+//            CreateMockEventManager();
 
-            XmlElement config = GetConfigXml();
-            foreach (XmlNode node in config["QCProjects"].SelectNodes("Project"))
-            {
-                QCProject oneProject = new QCProject(node);
-                _projects.Add(node.Attributes["id"].InnerText, new QualityCenterClient(oneProject, config, logger));
-            }
-        }
+//            XmlElement config = GetConfigXml();
+//            foreach (XmlNode node in config["QCProjects"].SelectNodes("Project"))
+//            {
+//                QCProject oneProject = new QCProject(node);
+//                _projects.Add(node.Attributes["id"].InnerText, new QualityCenterClient(oneProject, config, logger));
+//            }
+//        }
 
-        [ClassCleanup]
-        public virtual void Teardown()
-        {
-            foreach (KeyValuePair<string, QualityCenterClient> pair in _projects)
-            {
-                pair.Value.Logout();
-                pair.Value.Dispose();
-            }
-        }
+//        [ClassCleanup]
+//        public virtual void Teardown()
+//        {
+//            foreach (KeyValuePair<string, QualityCenterClient> pair in _projects)
+//            {
+//                pair.Value.Logout();
+//                pair.Value.Dispose();
+//            }
+//        }
 
-        protected virtual void CreateMockEventManager()
-        {
-            mockEventManager = (IEventManager)repo.StrictMock(typeof(IEventManager));
-        }
+//        protected virtual void CreateMockEventManager()
+//        {
+//            mockEventManager = (IEventManager)repo.StrictMock(typeof(IEventManager));
+//        }
 
-        protected virtual XmlElement GetConfigXml()
-        {
-            const string xml = @"<QualityCenterHostedService class=""VersionOne.ServiceHost.QualityCenterServices.QualityCenterHostedService, VersionOne.ServiceHost.QualityCenterServices"">
-			<Connection>
-				<ApplicationUrl>http://hpmercury/qcbin/</ApplicationUrl>
-				<Username>alex_qc</Username>
-				<Password></Password>
-			</Connection>
-			<QCProjects>
-				<Project id=""CallCenter"">
-					<Domain>Development</Domain>
-					<Project>UnitTest</Project>
-					<TestFolder>VersionOne</TestFolder>
-					<TestStatus>Imported</TestStatus>
-					<VersionOneIdField>TS_USER_01</VersionOneIdField>
-					<VersionOneProject>Call Center</VersionOneProject>
-				</Project>
-			</QCProjects>
+//        protected virtual XmlElement GetConfigXml()
+//        {
+//            const string xml = @"<QualityCenterHostedService class=""VersionOne.ServiceHost.QualityCenterServices.QualityCenterHostedService, VersionOne.ServiceHost.QualityCenterServices"">
+//			<Connection>
+//				<ApplicationUrl>http://hpmercury/qcbin/</ApplicationUrl>
+//				<Username>alex_qc</Username>
+//				<Password></Password>
+//			</Connection>
+//			<QCProjects>
+//				<Project id=""CallCenter"">
+//					<Domain>Development</Domain>
+//					<Project>UnitTest</Project>
+//					<TestFolder>VersionOne</TestFolder>
+//					<TestStatus>Imported</TestStatus>
+//					<VersionOneIdField>TS_USER_01</VersionOneIdField>
+//					<VersionOneProject>Call Center</VersionOneProject>
+//				</Project>
+//			</QCProjects>
+//
+//			<!-- Quality Center Search Criteria to find Defects to move into VersionOne -->
+//			<DefectFilters>
+//				<!-- User the Defect is Assigned To-->
+//				<DefectFilter>
+//					<FieldName>BG_RESPONSIBLE</FieldName>
+//					<FieldValue>VersionOne</FieldValue>
+//				</DefectFilter>
+//				
+//				<!-- Status of the Defect -->
+//				<DefectFilter>
+//					<FieldName>BG_STATUS</FieldName>
+//					<FieldValue>New OR Reopen</FieldValue>
+//				</DefectFilter>
+//			</DefectFilters>
+//
+//			<!-- Quality Center change after a Defect is created in VersionOne -->
+//			<CreateStatusValue>Open</CreateStatusValue>
+//
+//			<!-- Quality Center change after a VersionOne Defect is closed -->
+//			<CloseStatusValue>Fixed</CloseStatusValue>
+//
+//			<!-- VersionOne 'Source' value to use when Defect was created from Quality Center artifact -->
+//			<SourceFieldValue>Quality Center</SourceFieldValue>
+//		</QualityCenterHostedService>";
 
-			<!-- Quality Center Search Criteria to find Defects to move into VersionOne -->
-			<DefectFilters>
-				<!-- User the Defect is Assigned To-->
-				<DefectFilter>
-					<FieldName>BG_RESPONSIBLE</FieldName>
-					<FieldValue>VersionOne</FieldValue>
-				</DefectFilter>
-				
-				<!-- Status of the Defect -->
-				<DefectFilter>
-					<FieldName>BG_STATUS</FieldName>
-					<FieldValue>New OR Reopen</FieldValue>
-				</DefectFilter>
-			</DefectFilters>
+//            XmlDocument doc = new XmlDocument();
+//            doc.LoadXml(xml);
+//            return doc.DocumentElement;
+//        }
 
-			<!-- Quality Center change after a Defect is created in VersionOne -->
-			<CreateStatusValue>Open</CreateStatusValue>
+//        protected QualityCenterClient CallCenterConnection
+//        {
+//            get
+//            {
+//                return _projects["CallCenter"];
+//            }
+//        }
+//    }
 
-			<!-- Quality Center change after a VersionOne Defect is closed -->
-			<CloseStatusValue>Fixed</CloseStatusValue>
+//    public abstract class QualityCenterClientLoggedInContext : QualityCenterClientContext
+//    {
+//        public override void Context()
+//        {
+//            base.Context();
+//            CallCenterConnection.Login();
+//        }
+//    }
 
-			<!-- VersionOne 'Source' value to use when Defect was created from Quality Center artifact -->
-			<SourceFieldValue>Quality Center</SourceFieldValue>
-		</QualityCenterHostedService>";
+//    //public abstract class QualityCenterClientProjectConnectedContext : QualityCenterClientLoggedInContext
+//    //{
+//    //    public override void Context()
+//    //    {
+//    //        base.Context();
+//    //        CallCenterConnection.ConnectToProject();
+//    //    }
+//    //}
 
-            XmlDocument doc = new XmlDocument();
-            doc.LoadXml(xml);
-            return doc.DocumentElement;
-        }
+//    //[TestClass]
+//    //[Ignore]
+//    //public class when_quality_center_connection_is_initialized_but_not_logged_in : QualityCenterClientContext
+//    //{
 
-        protected QualityCenterClient CallCenterConnection
-        {
-            get
-            {
-                return _projects["CallCenter"];
-            }
-        }
-    }
+//    //    [TestMethod]
+//    //    public void should_be_connected()
+//    //    {
+//    //        Assert.IsTrue(CallCenterConnection.IsConnected);
+//    //    }
 
-    public abstract class QualityCenterClientLoggedInContext : QualityCenterClientContext
-    {
-        public override void Context()
-        {
-            base.Context();
-            CallCenterConnection.Login();
-        }
-    }
+//    //    [TestMethod]
+//    //    public void should_not_be_logged_in()
+//    //    {
+//    //        Assert.IsFalse(CallCenterConnection.IsLoggedIn);
+//    //    }
 
-    //public abstract class QualityCenterClientProjectConnectedContext : QualityCenterClientLoggedInContext
-    //{
-    //    public override void Context()
-    //    {
-    //        base.Context();
-    //        CallCenterConnection.ConnectToProject();
-    //    }
-    //}
+//    //    [TestMethod]
+//    //    public void should_not_be_connected_to_the_project()
+//    //    {
+//    //        Assert.IsFalse(CallCenterConnection.IsProjectConnected);
+//    //    }
+//    //}
 
-    //[TestClass]
-    //[Ignore]
-    //public class when_quality_center_connection_is_initialized_but_not_logged_in : QualityCenterClientContext
-    //{
+//    //[TestClass]
+//    //[Ignore]
+//    //public class after_calling_login_on_quality_center_connection : QualityCenterClientLoggedInContext
+//    //{
 
-    //    [TestMethod]
-    //    public void should_be_connected()
-    //    {
-    //        Assert.IsTrue(CallCenterConnection.IsConnected);
-    //    }
+//    //    [TestMethod]
+//    //    public void should_be_connected()
+//    //    {
+//    //        Assert.IsTrue(CallCenterConnection.IsConnected);
+//    //    }
 
-    //    [TestMethod]
-    //    public void should_not_be_logged_in()
-    //    {
-    //        Assert.IsFalse(CallCenterConnection.IsLoggedIn);
-    //    }
+//    //    [TestMethod]
+//    //    public void should_be_logged_in()
+//    //    {
+//    //        Assert.IsTrue(CallCenterConnection.IsLoggedIn);
+//    //    }
 
-    //    [TestMethod]
-    //    public void should_not_be_connected_to_the_project()
-    //    {
-    //        Assert.IsFalse(CallCenterConnection.IsProjectConnected);
-    //    }
-    //}
+//    //    [TestMethod]
+//    //    public void should_not_be_connected_to_project()
+//    //    {
+//    //        Assert.IsFalse(CallCenterConnection.IsProjectConnected);
+//    //    }
+//    //}
 
-    //[TestClass]
-    //[Ignore]
-    //public class after_calling_login_on_quality_center_connection : QualityCenterClientLoggedInContext
-    //{
+//    //[TestClass]
+//    //[Ignore]
+//    //public class after_calling_connect_to_project_on_quality_center_connection : QualityCenterClientProjectConnectedContext
+//    //{
+//    //    [TestMethod]
+//    //    public void should_be_connected()
+//    //    {
+//    //        Assert.IsTrue(CallCenterConnection.IsConnected);
+//    //    }
 
-    //    [TestMethod]
-    //    public void should_be_connected()
-    //    {
-    //        Assert.IsTrue(CallCenterConnection.IsConnected);
-    //    }
+//    //    [TestMethod]
+//    //    public void should_be_logged_in()
+//    //    {
+//    //        Assert.IsTrue(CallCenterConnection.IsLoggedIn);
+//    //    }
 
-    //    [TestMethod]
-    //    public void should_be_logged_in()
-    //    {
-    //        Assert.IsTrue(CallCenterConnection.IsLoggedIn);
-    //    }
+//    //    [TestMethod]
+//    //    public void should_be_connected_to_project()
+//    //    {
+//    //        Assert.IsTrue(CallCenterConnection.IsProjectConnected);
+//    //    }
+//    //}
 
-    //    [TestMethod]
-    //    public void should_not_be_connected_to_project()
-    //    {
-    //        Assert.IsFalse(CallCenterConnection.IsProjectConnected);
-    //    }
-    //}
+//    //[TestClass]
+//    //[Ignore]
+//    //public class after_calling_logout_on_quality_center_connection : QualityCenterClientProjectConnectedContext
+//    //{
 
-    //[TestClass]
-    //[Ignore]
-    //public class after_calling_connect_to_project_on_quality_center_connection : QualityCenterClientProjectConnectedContext
-    //{
-    //    [TestMethod]
-    //    public void should_be_connected()
-    //    {
-    //        Assert.IsTrue(CallCenterConnection.IsConnected);
-    //    }
+//    //    public override void Context()
+//    //    {
+//    //        base.Context();
+//    //        CallCenterConnection.Logout();
+//    //    }
 
-    //    [TestMethod]
-    //    public void should_be_logged_in()
-    //    {
-    //        Assert.IsTrue(CallCenterConnection.IsLoggedIn);
-    //    }
+//    //    [TestMethod]
+//    //    public void should_be_connected()
+//    //    {
+//    //        Assert.IsTrue(CallCenterConnection.IsConnected);
+//    //    }
 
-    //    [TestMethod]
-    //    public void should_be_connected_to_project()
-    //    {
-    //        Assert.IsTrue(CallCenterConnection.IsProjectConnected);
-    //    }
-    //}
+//    //    [TestMethod]
+//    //    public void should_not_be_logged_in()
+//    //    {
+//    //        Assert.IsFalse(CallCenterConnection.IsLoggedIn);
+//    //    }
 
-    //[TestClass]
-    //[Ignore]
-    //public class after_calling_logout_on_quality_center_connection : QualityCenterClientProjectConnectedContext
-    //{
+//    //    [TestMethod]
+//    //    public void should_not_be_project_connected()
+//    //    {
+//    //        Assert.IsFalse(CallCenterConnection.IsProjectConnected);
+//    //    }
+//    //}
 
-    //    public override void Context()
-    //    {
-    //        base.Context();
-    //        CallCenterConnection.Logout();
-    //    }
+//    [TestClass]
+//    [Ignore]
+//    public class when_creating_a_test_in_quality_center : QualityCenterClientContext
+//    {
+//        private int _beforeCreateTestCount;
 
-    //    [TestMethod]
-    //    public void should_be_connected()
-    //    {
-    //        Assert.IsTrue(CallCenterConnection.IsConnected);
-    //    }
+//        //public override void Context()
+//        //{
+//        //    base.Context();
+//        //    _beforeCreateTestCount = CallCenterConnection.GetTestCount();
+//        //    string testTitle = string.Format("Unit Test {0}", DateTime.Now.ToString("yyyyMMdd-HHmmss"));
+//        //    CallCenterConnection.CreateQCTest(testTitle, "This is the test description", "AT-00001");
+//        //}
 
-    //    [TestMethod]
-    //    public void should_not_be_logged_in()
-    //    {
-    //        Assert.IsFalse(CallCenterConnection.IsLoggedIn);
-    //    }
+//        //[TestMethod]
+//        //public void should_increments_test_count_in_quality_center()
+//        //{
+//        //    int afterCreateCount = CallCenterConnection.GetTestCount();
+//        //    Assert.AreEqual(_beforeCreateTestCount + 1, afterCreateCount);
+//        //}
+//    }
 
-    //    [TestMethod]
-    //    public void should_not_be_project_connected()
-    //    {
-    //        Assert.IsFalse(CallCenterConnection.IsProjectConnected);
-    //    }
-    //}
+//    /**
+//     * this test creates a defect in QC, then updates that defect from pretend data that it received from VersionOne
+//     */
+//    [TestClass]
+//    [Ignore]
+//    public class when_updating_a_defect_after_creation_in_v1 : QualityCenterClientContext
+//    {
+//        #region Attributes necessary for this test
+//        private string beforeStatus;
+//        private string beforeComments;
+//        private int beforeAttachmentCount;
+//        #endregion
 
-    [TestClass]
-    [Ignore]
-    public class when_creating_a_test_in_quality_center : QualityCenterClientContext
-    {
-        private int _beforeCreateTestCount;
+//        //public override void Context()
+//        //{
+//        //    base.Context();
+//        //    _qcBug = CallCenterConnection.CreateQCDefect();
+//        //    beforeStatus = _qcBug.Status;
+//        //    beforeComments = (string)_qcBug["BG_DEV_COMMENTS"] + "";
+//        //    beforeAttachmentCount = ((AttachmentFactory)_qcBug.Attachments).NewList("").Count;
 
-        //public override void Context()
-        //{
-        //    base.Context();
-        //    _beforeCreateTestCount = CallCenterConnection.GetTestCount();
-        //    string testTitle = string.Format("Unit Test {0}", DateTime.Now.ToString("yyyyMMdd-HHmmss"));
-        //    CallCenterConnection.CreateQCTest(testTitle, "This is the test description", "AT-00001");
-        //}
+//        //    List<string> comments = new List<string>();
+//        //    comments.Add("We pretended to create this defect in VersionOne");
+//        //    comments.Add("This is the data returned by the V1 server");
 
-        //[TestMethod]
-        //public void should_increments_test_count_in_quality_center()
-        //{
-        //    int afterCreateCount = CallCenterConnection.GetTestCount();
-        //    Assert.AreEqual(_beforeCreateTestCount + 1, afterCreateCount);
-        //}
-    }
+//        //    CallCenterConnection.OnDefectCreated(QualityCenterClient.DefectID(_qcBug), comments, "http://localhost/versionone/assetdetail.v1?oid=Defect%3a1410");
+//        //    _qcBug.Refresh();
+//        //}
 
-    /**
-     * this test creates a defect in QC, then updates that defect from pretend data that it received from VersionOne
-     */
-    [TestClass]
-    [Ignore]
-    public class when_updating_a_defect_after_creation_in_v1 : QualityCenterClientContext
-    {
-        #region Attributes necessary for this test
-        private Bug _qcBug;
-        private string beforeStatus;
-        private string beforeComments;
-        private int beforeAttachmentCount;
-        #endregion
+//        [TestMethod]
+//        public void should_change_status()
+//        {
+//            string afterStatus = _qcBug.Status;
+//            Assert.AreNotEqual(beforeStatus, afterStatus);
+//        }
 
-        //public override void Context()
-        //{
-        //    base.Context();
-        //    _qcBug = CallCenterConnection.CreateQCDefect();
-        //    beforeStatus = _qcBug.Status;
-        //    beforeComments = (string)_qcBug["BG_DEV_COMMENTS"] + "";
-        //    beforeAttachmentCount = ((AttachmentFactory)_qcBug.Attachments).NewList("").Count;
+//        [TestMethod]
+//        public void should_add_comments()
+//        {
+//            string afterComments = (string)_qcBug["BG_DEV_COMMENTS"] + "";
+//            Assert.IsTrue(afterComments.Length > beforeComments.Length);
+//        }
 
-        //    List<string> comments = new List<string>();
-        //    comments.Add("We pretended to create this defect in VersionOne");
-        //    comments.Add("This is the data returned by the V1 server");
+//        [TestMethod]
+//        public void should_add_link()
+//        {
+//            int afterAttachmentCount = ((AttachmentFactory)_qcBug.Attachments).NewList("").Count;
+//            Assert.IsTrue(afterAttachmentCount > beforeAttachmentCount);
+//        }
+//    }
 
-        //    CallCenterConnection.OnDefectCreated(QualityCenterClient.DefectID(_qcBug), comments, "http://localhost/versionone/assetdetail.v1?oid=Defect%3a1410");
-        //    _qcBug.Refresh();
-        //}
+//    ///**
+//    // * this test creates a defect in QC, then pretends it was closed in VersionOne
+//    // */
+//    //[TestClass]
+//    //[Ignore]
+//    //public class when_updating_a_defect_after_it_is_closed_in_v1 : QualityCenterClientContext
+//    //{
+//    //    #region Attributes necessary for this test
+//    //    private Bug _qcBug;
+//    //    private string beforeStatus;
+//    //    private string beforeComments;
+//    //    #endregion
 
-        [TestMethod]
-        public void should_change_status()
-        {
-            string afterStatus = _qcBug.Status;
-            Assert.AreNotEqual(beforeStatus, afterStatus);
-        }
+//    //    public override void Context()
+//    //    {
+//    //        base.Context();
+//    //        _qcBug = CallCenterConnection.CreateQCDefect();
+//    //        beforeStatus = _qcBug.Status;
+//    //        beforeComments = (string)_qcBug["BG_DEV_COMMENTS"] + "";
 
-        [TestMethod]
-        public void should_add_comments()
-        {
-            string afterComments = (string)_qcBug["BG_DEV_COMMENTS"] + "";
-            Assert.IsTrue(afterComments.Length > beforeComments.Length);
-        }
+//    //        List<string> comments = new List<string>();
+//    //        comments.Add("We pretended to close this defect in VersionOne");
 
-        [TestMethod]
-        public void should_add_link()
-        {
-            int afterAttachmentCount = ((AttachmentFactory)_qcBug.Attachments).NewList("").Count;
-            Assert.IsTrue(afterAttachmentCount > beforeAttachmentCount);
-        }
-    }
+//    //        CallCenterConnection.OnDefectStateChange(QualityCenterClient.DefectID(_qcBug), comments);
+//    //        _qcBug.Refresh();
+//    //    }
 
-    ///**
-    // * this test creates a defect in QC, then pretends it was closed in VersionOne
-    // */
-    //[TestClass]
-    //[Ignore]
-    //public class when_updating_a_defect_after_it_is_closed_in_v1 : QualityCenterClientContext
-    //{
-    //    #region Attributes necessary for this test
-    //    private Bug _qcBug;
-    //    private string beforeStatus;
-    //    private string beforeComments;
-    //    #endregion
+//        //[TestMethod]
+//        //public void should_change_status()
+//        //{
+//        //    string afterStatus = _qcBug.Status;
+//        //    Assert.AreNotEqual(beforeStatus, afterStatus);
+//        //}
 
-    //    public override void Context()
-    //    {
-    //        base.Context();
-    //        _qcBug = CallCenterConnection.CreateQCDefect();
-    //        beforeStatus = _qcBug.Status;
-    //        beforeComments = (string)_qcBug["BG_DEV_COMMENTS"] + "";
+//        //[TestMethod]
+//        //public void should_add_comments()
+//        //{
+//        //    string afterComments = (string)_qcBug["BG_DEV_COMMENTS"] + "";
+//        //    Assert.IsTrue(afterComments.Length > beforeComments.Length);
+//        //}
+//    //}
 
-    //        List<string> comments = new List<string>();
-    //        comments.Add("We pretended to close this defect in VersionOne");
+//    //[TestClass]
+//    //[Ignore]
+//    //public class when_checking_for_test_updates : QualityCenterClientContext
+//    //{
+//    //    [TestMethod]
+//    //    public void should_find_some_changes()
+//    //    {
+//    //        DateTime lastCheck = new DateTime(2009, 07, 23, 10, 20, 00);
+//    //        IList results = CallCenterConnection.GetLatestTestRuns(lastCheck);
+//    //        Assert.AreNotEqual(0, results.Count);
+//    //    }
+//    //}
 
-    //        CallCenterConnection.OnDefectStateChange(QualityCenterClient.DefectID(_qcBug), comments);
-    //        _qcBug.Refresh();
-    //    }
-
-        //[TestMethod]
-        //public void should_change_status()
-        //{
-        //    string afterStatus = _qcBug.Status;
-        //    Assert.AreNotEqual(beforeStatus, afterStatus);
-        //}
-
-        //[TestMethod]
-        //public void should_add_comments()
-        //{
-        //    string afterComments = (string)_qcBug["BG_DEV_COMMENTS"] + "";
-        //    Assert.IsTrue(afterComments.Length > beforeComments.Length);
-        //}
-    //}
-
-    //[TestClass]
-    //[Ignore]
-    //public class when_checking_for_test_updates : QualityCenterClientContext
-    //{
-    //    [TestMethod]
-    //    public void should_find_some_changes()
-    //    {
-    //        DateTime lastCheck = new DateTime(2009, 07, 23, 10, 20, 00);
-    //        IList results = CallCenterConnection.GetLatestTestRuns(lastCheck);
-    //        Assert.AreNotEqual(0, results.Count);
-    //    }
-    //}
-
-    //[TestClass]
-    //[Ignore]
-    //public class when_checking_for_new_defects : QualityCenterClientContext
-    //{
-    //    [TestMethod]
-    //    public void should_find_some_changes()
-    //    {
-    //        DateTime lastCheck = new DateTime(2009, 07, 23, 10, 20, 00);
-    //        IList results = CallCenterConnection.GetLatestDefects(lastCheck);
-    //        Assert.AreNotEqual(0, results.Count);
-    //    }
-    //}
-}
+//    //[TestClass]
+//    //[Ignore]
+//    //public class when_checking_for_new_defects : QualityCenterClientContext
+//    //{
+//    //    [TestMethod]
+//    //    public void should_find_some_changes()
+//    //    {
+//    //        DateTime lastCheck = new DateTime(2009, 07, 23, 10, 20, 00);
+//    //        IList results = CallCenterConnection.GetLatestDefects(lastCheck);
+//    //        Assert.AreNotEqual(0, results.Count);
+//    //    }
+//    //}
+//}
