@@ -70,7 +70,7 @@ namespace VersionOne.ServiceHost.QualityCenterServices {
                 try {
                     qcEvent.Reference = projects[testData.Project].CreateQCTest(testData.Title, testData.Description, testData.DisplayId);
                     logger.Log(LogMessage.SeverityType.Debug,
-                            string.Format("Creating QC Test from \"{0}\" ({1}) ", testData.Title, testData.Oid));
+                            string.Format("Creating HP-ALM Test from \"{0}\" ({1}) ", testData.Title, testData.Oid));
                 } catch (Exception ex) {
                     logger.Log(LogMessage.SeverityType.Error, ex.ToString());
                     qcEvent.Successful = false;

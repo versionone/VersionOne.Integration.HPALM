@@ -66,7 +66,7 @@ namespace VersionOne.ServiceHost.QualityCenterServices {
             if(defectsToHandle.Count > 0) {
                 try {
                     foreach(var defectChange in defectsToHandle) {
-                        logger.Log(LogMessage.SeverityType.Debug, string.Format("Updating QC Defect {0}", defectChange.ExternalId));
+                        logger.Log(LogMessage.SeverityType.Debug, string.Format("Updating HP-ALM Defect {0}", defectChange.ExternalId));
                         workitemChanges.ChangesProcessed = server.OnDefectStateChange(defectChange);
                         logger.Log(LogMessage.SeverityType.Debug, string.Format("\tErrors? {0}", defectChange.ChangesProcessed));
                     }
@@ -94,7 +94,7 @@ namespace VersionOne.ServiceHost.QualityCenterServices {
             var testReady = (V1TestReady)pubobj;
 
             try {
-                logger.Log(LogMessage.SeverityType.Debug, string.Format("Create Test {0} in QC Project {1}", testReady.DisplayId, testReady.Project));
+                logger.Log(LogMessage.SeverityType.Debug, string.Format("Create Test {0} in HP-ALM Project {1}", testReady.DisplayId, testReady.Project));
                 var testEvent = server.CreateTest(testReady);
 
                 if(testEvent != null) {

@@ -15,8 +15,8 @@ namespace VersionOne.ServiceHost.QualityCenterServices.StartupValidation {
         }
 
         public bool Validate() {
-            Log(LogMessage.SeverityType.Info, "Validating QualityCenter connection");
-            Log(LogMessage.SeverityType.Info, string.Format("    Using QualityCenter URL '{0}'", url));
+            Log(LogMessage.SeverityType.Info, "Validating HP-ALM connection");
+            Log(LogMessage.SeverityType.Info, string.Format("    Using HP-ALM URL '{0}'", url));
             Log(LogMessage.SeverityType.Info, string.Format("    Username: '{0}'", username));
 
             //ITDConnection2 connection = null;
@@ -31,9 +31,9 @@ namespace VersionOne.ServiceHost.QualityCenterServices.StartupValidation {
 
                 //connection.GetTDVersion(out majorVersion, out buildNumber);
                 //Log(LogMessage.SeverityType.Info, string.Format("    QualityCenter version is {0}.{1}", majorVersion, buildNumber));
-                Log(LogMessage.SeverityType.Info, string.Format("    QualityCenter connection is valid"));
+                Log(LogMessage.SeverityType.Info, string.Format("    HP-ALM connection is valid"));
             } catch (Exception ex) {
-                Log(LogMessage.SeverityType.Warning, "Failed to execute QualityCenter connection validation", ex);
+                Log(LogMessage.SeverityType.Warning, "Failed to execute HP-ALM connection validation", ex);
                 return false;
             } finally {
                 if (connector != null) {
@@ -42,7 +42,7 @@ namespace VersionOne.ServiceHost.QualityCenterServices.StartupValidation {
                 }
             }
 
-            Log(LogMessage.SeverityType.Info, "QualityCenter connection settings are valid.");
+            Log(LogMessage.SeverityType.Info, "HP-ALM connection settings are valid.");
             return true;
         }
     }
