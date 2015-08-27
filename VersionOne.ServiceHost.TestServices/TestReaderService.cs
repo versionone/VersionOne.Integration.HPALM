@@ -89,7 +89,7 @@ namespace VersionOne.ServiceHost.TestServices
                 {
                     var v1ProjectMap = new V1ProjectMap(oneNode);
                     Logger.Log(LogMessage.SeverityType.Debug,
-                        string.Format("Maping V1Project {0} to QC Project {1}", v1ProjectMap.ProjectName, v1ProjectMap.DestinationProject));
+                        string.Format("Maping V1Project {0} to HP-ALM Project {1}", v1ProjectMap.ProjectName, v1ProjectMap.DestinationProject));
                     SetQueryOnNode(v1ProjectMap, baseFilter);
                     Logger.Log(LogMessage.SeverityType.Debug, string.Format("\tQuery is {0}", v1ProjectMap.Query.Filter.Token));
                     projectMaps.Add(v1ProjectMap);
@@ -121,7 +121,7 @@ namespace VersionOne.ServiceHost.TestServices
             foreach (var projectMap in projectMaps)
             {
                 var result = services.Retrieve(projectMap.Query);
-                Logger.Log(string.Format("Found {0} Test to send to Quality Center in VersionOne Project \"{1}\"", result.TotalAvaliable, projectMap.ProjectName));
+                Logger.Log(string.Format("Found {0} Test to send to HP-ALM in VersionOne Project \"{1}\"", result.TotalAvaliable, projectMap.ProjectName));
 
                 foreach (var test in result.Assets)
                 {
