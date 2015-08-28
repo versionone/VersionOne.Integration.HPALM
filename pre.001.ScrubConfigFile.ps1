@@ -41,7 +41,7 @@ function Clean-ConfigFile {
         if ($scrubMapping -eq "true") {
             $_.Name = ""
             $_.IncludeChildren = "Y"
-            $_ = ""
+            $_.InnerText = ""
             $scrubMapping = "false"
         } else {
             $xml.configuration.Services.V1TestService.TestPublishProjectMap.RemoveChild($_)
