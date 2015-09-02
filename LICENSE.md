@@ -1,4 +1,4 @@
-# VersionOne Integration for HP Quality Center
+# VersionOne Integration for HP-ALM
 Copyright (c) 2015 VersionOne, Inc.
 All rights reserved.
 
