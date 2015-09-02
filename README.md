@@ -17,6 +17,9 @@ The binaries for this integration can be downloaded as a ZIP file from the [Vers
 * LICENSE.MD: License information in Markdown format  
 * README.MD: This README information in Markdown format  
 
+## Vewing the Documentation
+Documentation for the integation is also available online in the [VersionOne Developer Library](http://versionone.github.io/VersionOne.Integration.QualityCenter/).
+
 ## Getting Help
 
 While we strive to make the integration as easy to use as possible, you may still occasionally need some help, and there are a few different ways you can get it:  
