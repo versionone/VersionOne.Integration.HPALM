@@ -21,7 +21,7 @@ function Clean-ConfigFile {
     $scrubProject = "true"    
     $xml.configuration.Services.QualityCenterService.QCProjects.Project | % {
         if ($scrubProject -eq "true") {
-            $_.id = ""
+            $_.id = "VersionOne"
             $_.Project = ""
             $_.VersionOneProject = ""
             $scrubProject = "false"
@@ -41,7 +41,7 @@ function Clean-ConfigFile {
         if ($scrubMapping -eq "true") {
             $_.Name = ""
             $_.IncludeChildren = "Y"
-            $_.InnerText = ""
+            $_.InnerText = "VersionOne"
             $scrubMapping = "false"
         } else {
             $xml.configuration.Services.V1TestService.TestPublishProjectMap.RemoveChild($_)
