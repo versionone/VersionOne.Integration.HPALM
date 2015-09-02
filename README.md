@@ -10,7 +10,7 @@ The VersionOne Integration for HP-ALM provides a two-way flow of information for
 
 ## Integration Binary Files
 
-The binaries for this integration can be downloaded as a ZIP file from the [VersionOne Application Catalog](http://appcatalog.versionone.com/VersionOne.Integration.HPALM) which will contain the following:
+The binaries for this integration can be downloaded as a ZIP file from the [VersionOne Application Catalog](http://appcatalog.versionone.com/VersionOne.Integration.QualityCenter) which will contain the following:
 
 * /bin: The binaries needed to run the integration  
 * /doc: The documentation for the integration  
