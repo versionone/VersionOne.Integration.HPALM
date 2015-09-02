@@ -18,7 +18,7 @@ The binaries for this integration can be downloaded as a ZIP file from the [Vers
 * README.MD: This README information in Markdown format  
 
 ## Vewing the Documentation
-Documentation for the integation is also available online in the [VersionOne Developer Library](http://versionone.github.io/VersionOne.Integration.QualityCenter/).
+Documentation for the integation is also available online in the [VersionOne Developer Library](https://community.versionone.com/Developers/Developer-Library/Integrations/VersionOne_Integration_for_HP-ALM).
 
 ## Getting Help
 
