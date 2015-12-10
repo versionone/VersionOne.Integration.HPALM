@@ -43,7 +43,8 @@ namespace VersionOne.ServiceHost.ConfigurationTool.Entities {
             set { Enabled = !Convert.ToBoolean(value); }
         }
 
-         [NonEmptyStringValidator]
+        [XmlElement(ElementName = "Url")]
+        [NonEmptyStringValidator]
         public string Uri
         {
             get { return uri; }
