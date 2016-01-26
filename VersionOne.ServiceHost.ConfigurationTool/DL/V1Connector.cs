@@ -111,7 +111,7 @@ namespace VersionOne.ServiceHost.ConfigurationTool.DL {
                 return null;
             }
             
-            var uri = new Uri(proxySettings.Uri);
+            var uri = new Uri(proxySettings.Url);
             return new ProxyProvider(uri,proxySettings.UserName, proxySettings.Password, proxySettings.Domain);
         }
 

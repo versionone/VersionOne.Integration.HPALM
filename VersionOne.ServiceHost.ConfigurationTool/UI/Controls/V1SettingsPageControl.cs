@@ -123,7 +123,7 @@ namespace VersionOne.ServiceHost.ConfigurationTool.UI.Controls {
                     Domain = txtProxyDomain.Text,
                     UserName = txtProxyUsername.Text,
                     Password = txtProxyPassword.Text,
-                    Uri = txtProxyUri.Text
+                    Url = txtProxyUri.Text
                 }
             };
             //added access token and method validation

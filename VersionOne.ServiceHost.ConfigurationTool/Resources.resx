@@ -197,7 +197,7 @@
     <value>Resources\Logo.ico;System.Drawing.Icon, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="V1ProxyUrlSettingsIsNotCorrect" xml:space="preserve">
-    <value>Proxy Uri is not correct</value>
+    <value>Proxy Url is not correct</value>
   </data>
   <data name="V1SettingsInvalidMessage" xml:space="preserve">
     <value>Validation failed, server is not accessible or unable to authenticate</value>

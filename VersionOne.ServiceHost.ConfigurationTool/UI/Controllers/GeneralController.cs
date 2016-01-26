@@ -33,7 +33,7 @@ namespace VersionOne.ServiceHost.ConfigurationTool.UI.Controllers {
             var isProxyUrlSyntaxCorrect = true;
             
             try {
-                var uri = new Uri(proxySettings.Uri);
+                var uri = new Uri(proxySettings.Url);
             } catch (Exception) {
                 isProxyUrlSyntaxCorrect = false;
                 Facade.ResetConnection();

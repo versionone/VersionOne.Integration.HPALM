@@ -17,7 +17,7 @@ namespace VersionOne.ServiceHost.ConfigurationTool.Entities {
         public readonly static string DomainProperty = "Domain";
 
         private bool enabled;
-        private string uri;
+        private string _url;
         private string userName;
         private string password;
         private string domain;
@@ -45,14 +45,14 @@ namespace VersionOne.ServiceHost.ConfigurationTool.Entities {
 
         [XmlElement(ElementName = "Url")]
         [NonEmptyStringValidator]
-        public string Uri
+        public string Url
         {
-            get { return uri; }
+            get { return _url; }
             set
             {
-                if (uri != value)
+                if (_url != value)
                 {
-                    uri = value;
+                    _url = value;
                     NotifyPropertyChanged();
                 }
             }

@@ -207,7 +207,7 @@ namespace VersionOne.ServiceHost.ConfigurationTool {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Proxy Uri is not correct.
+        ///   Looks up a localized string similar to Proxy Url is not correct.
         /// </summary>
         internal static string V1ProxyUrlSettingsIsNotCorrect {
             get {
