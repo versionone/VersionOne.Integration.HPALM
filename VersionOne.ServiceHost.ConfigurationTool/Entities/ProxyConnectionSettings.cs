@@ -10,7 +10,7 @@ using VersionOne.ServiceHost.ConfigurationTool.Attributes;
 namespace VersionOne.ServiceHost.ConfigurationTool.Entities {
     [XmlRoot("ProxySettings")]
     public class ProxyConnectionSettings {
-        public readonly static string UriProperty = "Uri";
+        public readonly static string UriProperty = "Url";
         public readonly static string UsernameProperty = "UserName";
         public readonly static string PasswordProperty = "Password";
         public readonly static string EnabledProperty = "Enabled";
