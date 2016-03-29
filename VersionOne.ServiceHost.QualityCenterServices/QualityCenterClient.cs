@@ -84,7 +84,7 @@ namespace VersionOne.ServiceHost.QualityCenterServices {
 
         public IList<XDocument> GetLatestTestRuns(DateTime lastCheck) {
             Login();
-            var filterParam = "{last-modified[" + GetLastCheckFilterString(lastCheck) + "]; user-01[AT*];exec-status[<>\"No Run\"]}";
+			var filterParam = string.Format("{{last-modified[{0}]; {1}[AT*];exec-status[<>\"No Run\"]}}", GetLastCheckFilterString(lastCheck), project.V1IdField);
             var resource = string.Format("/qcbin/rest/domains/{0}/projects/{1}/tests?query={2}", project.Domain,
                 project.Project, filterParam);
 
